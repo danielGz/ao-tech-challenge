@@ -1,0 +1,382 @@
+openapi: 3.0.0
+info:
+  description: "API for managing products, orders, and order items."
+  title: Sample API
+  version: 1.0.0
+servers:
+- url: http://localhost:8080/api
+paths:
+  /products:
+    get:
+      responses:
+        "200":
+          content:
+            application/json:
+              schema:
+                items:
+                  $ref: "#/components/schemas/Product"
+                type: array
+          description: A list of products.
+      summary: Get a list of all products
+      tags:
+      - ProductApi
+      x-accepts:
+      - application/json
+      x-tags:
+      - tag: ProductApi
+    post:
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: "#/components/schemas/Product"
+        required: true
+      responses:
+        "201":
+          description: Product created.
+      summary: Create a new product
+      tags:
+      - ProductApi
+      x-content-type: application/json
+      x-accepts:
+      - application/json
+      x-tags:
+      - tag: ProductApi
+  /products/{id}:
+    delete:
+      parameters:
+      - explode: false
+        in: path
+        name: id
+        required: true
+        schema:
+          type: string
+        style: simple
+      responses:
+        "204":
+          description: Product deleted.
+      summary: Delete a product by ID
+      tags:
+      - ProductApi
+      x-accepts:
+      - application/json
+      x-tags:
+      - tag: ProductApi
+    get:
+      parameters:
+      - explode: false
+        in: path
+        name: id
+        required: true
+        schema:
+          type: string
+        style: simple
+      responses:
+        "200":
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/Product"
+          description: A single product.
+      summary: Get a product by ID
+      tags:
+      - ProductApi
+      x-accepts:
+      - application/json
+      x-tags:
+      - tag: ProductApi
+    put:
+      parameters:
+      - explode: false
+        in: path
+        name: id
+        required: true
+        schema:
+          type: string
+        style: simple
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: "#/components/schemas/Product"
+        required: true
+      responses:
+        "200":
+          description: Product updated.
+      summary: Update an existing product
+      tags:
+      - ProductApi
+      x-content-type: application/json
+      x-accepts:
+      - application/json
+      x-tags:
+      - tag: ProductApi
+  /orders:
+    get:
+      responses:
+        "200":
+          content:
+            application/json:
+              schema:
+                items:
+                  $ref: "#/components/schemas/Order"
+                type: array
+          description: A list of orders.
+      summary: Get a list of all orders
+      tags:
+      - OrderApi
+      x-accepts:
+      - application/json
+      x-tags:
+      - tag: OrderApi
+    post:
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: "#/components/schemas/Order"
+        required: true
+      responses:
+        "201":
+          description: Order created.
+      summary: Create a new order
+      tags:
+      - OrderApi
+      x-content-type: application/json
+      x-accepts:
+      - application/json
+      x-tags:
+      - tag: OrderApi
+  /orders/{id}:
+    delete:
+      parameters:
+      - explode: false
+        in: path
+        name: id
+        required: true
+        schema:
+          type: string
+        style: simple
+      responses:
+        "204":
+          description: Order deleted.
+      summary: Delete an order by ID
+      tags:
+      - OrderApi
+      x-accepts:
+      - application/json
+      x-tags:
+      - tag: OrderApi
+    get:
+      parameters:
+      - explode: false
+        in: path
+        name: id
+        required: true
+        schema:
+          type: string
+        style: simple
+      responses:
+        "200":
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/Order"
+          description: A single order.
+      summary: Get an order by ID
+      tags:
+      - OrderApi
+      x-accepts:
+      - application/json
+      x-tags:
+      - tag: OrderApi
+    put:
+      parameters:
+      - explode: false
+        in: path
+        name: id
+        required: true
+        schema:
+          type: string
+        style: simple
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: "#/components/schemas/Order"
+        required: true
+      responses:
+        "200":
+          description: Order updated.
+      summary: Update an existing order
+      tags:
+      - OrderApi
+      x-content-type: application/json
+      x-accepts:
+      - application/json
+      x-tags:
+      - tag: OrderApi
+  /order-items:
+    get:
+      responses:
+        "200":
+          content:
+            application/json:
+              schema:
+                items:
+                  $ref: "#/components/schemas/OrderItem"
+                type: array
+          description: A list of order items.
+      summary: Get a list of all order items
+      tags:
+      - OrderItemApi
+      x-accepts:
+      - application/json
+      x-tags:
+      - tag: OrderItemApi
+    post:
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: "#/components/schemas/OrderItem"
+        required: true
+      responses:
+        "201":
+          description: Order item created.
+      summary: Create a new order item
+      tags:
+      - OrderItemApi
+      x-content-type: application/json
+      x-accepts:
+      - application/json
+      x-tags:
+      - tag: OrderItemApi
+  /order-items/{id}:
+    delete:
+      parameters:
+      - explode: false
+        in: path
+        name: id
+        required: true
+        schema:
+          type: string
+        style: simple
+      responses:
+        "204":
+          description: Order item deleted.
+      summary: Delete an order item by ID
+      tags:
+      - OrderItemApi
+      x-accepts:
+      - application/json
+      x-tags:
+      - tag: OrderItemApi
+    get:
+      parameters:
+      - explode: false
+        in: path
+        name: id
+        required: true
+        schema:
+          type: string
+        style: simple
+      responses:
+        "200":
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/OrderItem"
+          description: A single order item.
+      summary: Get an order item by ID
+      tags:
+      - OrderItemApi
+      x-accepts:
+      - application/json
+      x-tags:
+      - tag: OrderItemApi
+    put:
+      parameters:
+      - explode: false
+        in: path
+        name: id
+        required: true
+        schema:
+          type: string
+        style: simple
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: "#/components/schemas/OrderItem"
+        required: true
+      responses:
+        "200":
+          description: Order item updated.
+      summary: Update an existing order item
+      tags:
+      - OrderItemApi
+      x-content-type: application/json
+      x-accepts:
+      - application/json
+      x-tags:
+      - tag: OrderItemApi
+components:
+  schemas:
+    Product:
+      example:
+        price: 0.8008282
+        name: name
+        description: description
+        id: id
+      properties:
+        id:
+          type: string
+        name:
+          type: string
+        price:
+          format: float
+          type: number
+        description:
+          type: string
+      type: object
+    Order:
+      example:
+        quantity: 0
+        productId: productId
+        id: id
+        status: pending
+      properties:
+        id:
+          type: string
+        productId:
+          type: string
+        quantity:
+          type: integer
+        status:
+          enum:
+          - pending
+          - completed
+          - cancelled
+          type: string
+      type: object
+    OrderItem:
+      example:
+        quantity: 0
+        productId: productId
+        orderId: orderId
+        price: 6.0274563
+        id: id
+      properties:
+        id:
+          type: string
+        orderId:
+          type: string
+        productId:
+          type: string
+        quantity:
+          type: integer
+        price:
+          format: float
+          type: number
+      type: object
