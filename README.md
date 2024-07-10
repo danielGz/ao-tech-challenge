@@ -15,9 +15,9 @@ To simplify updates to the API, specialized Gradle tasks are integrated into the
 > This project requires JDK 21
 Refer to this [document](docs/before_start.md) for development dependencies (JDK and Docker).
 
-### 2. Build OpenAPI Interfaces and Models:
+### 2. Build and generate OpenAPI Interfaces and Models:
 Run `./gradlew build` after checking the code into your local environment.
-Alternatively run `./gradlew openApiGenerate` followed by `./gradlew generateJpaAnnotations`.
+> the build lifecycle is configured to run `openApiGenerate` followed by `generateJpaAnnotations`
 
 ### 3. Start the database
 **Quick start:**  `docker run --name postgres-local -e POSTGRES_DB=ecomm -e POSTGRES_USER=ecomm -e POSTGRES_PASSWORD=T3st12E -p 5432:5432 -d postgres:latest`

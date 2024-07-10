@@ -44,7 +44,18 @@ openApiGenerate {
 	]
 }
 
+tasks.named('openApiGenerate').configure {
+	doLast {
+		println("openApiGenerate completed.")
+	}
+}
+
 task generateJpaAnnotations(type: Copy) {
+	dependsOn 'openApiGenerate'
+	outputs.upToDateWhen { false }
+	doFirst {
+		println("generating JPA annotations")
+	}
 	// Define the source and temporary destination directory
 	from "$rootDir/src/main/java/com/agileengine/ecomm/generated/model"
 	into "$buildDir/temp/model"
@@ -73,15 +84,18 @@ task generateJpaAnnotations(type: Copy) {
 
 	// Copy the modified files back to the source directory
 	doLast {
+		// Copy the modified files back to the source directory
 		copy {
 			from "${buildDir}/temp/model"
 			into "$rootDir/src/main/java/com/agileengine/ecomm/generated/model"
 		}
+		println("JPA annotations generation and copying complete.")
+
+		// Delete the temporary files after copying them back
+		delete "${buildDir}/temp/model"
+		println("Temporary files deleted.")
 	}
 }
-
-
-generateJpaAnnotations.mustRunAfter('openApiGenerate')
 
 repositories {
 	mavenCentral()
@@ -104,6 +118,12 @@ dependencies {
 tasks.named('test') {
 	useJUnitPlatform()
 }
+// List of task names that should depend on 'openApiGenerate'
+def tasksDependingOnOpenApi = ['jar', 'bootJar', 'resolveMainClassName', 'compileJava', 'processResources']
 
-build.finalizedBy('openApiGenerate', 'generateJpaAnnotations')
+tasksDependingOnOpenApi.each { taskName ->
+	tasks.named(taskName).configure {
+		dependsOn 'generateJpaAnnotations'
+	}
+}
 
