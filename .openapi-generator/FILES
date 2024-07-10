@@ -1,9 +1,8 @@
 pom.xml
 src/main/java/com/agileengine/ecomm/generated/api/ApiUtil.java
-src/main/java/com/agileengine/ecomm/generated/api/OrderItemApiApi.java
-src/main/java/com/agileengine/ecomm/generated/api/ProductApiApi.java
+src/main/java/com/agileengine/ecomm/generated/api/OrderItemApi.java
+src/main/java/com/agileengine/ecomm/generated/api/ProductApi.java
 src/main/java/com/agileengine/ecomm/generated/api/PurchaseOrderApi.java
-src/main/java/com/agileengine/ecomm/generated/api/PurchaseOrderApiApi.java
 src/main/java/com/agileengine/ecomm/generated/model/OrderItem.java
 src/main/java/com/agileengine/ecomm/generated/model/Product.java
 src/main/java/com/agileengine/ecomm/generated/model/PurchaseOrder.java

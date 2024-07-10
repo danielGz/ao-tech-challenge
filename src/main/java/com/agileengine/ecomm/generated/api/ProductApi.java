@@ -5,7 +5,7 @@
  */
 package com.agileengine.ecomm.generated.api;
 
-import com.agileengine.ecomm.generated.model.OrderItem;
+import com.agileengine.ecomm.generated.model.Product;
 import io.swagger.v3.oas.annotations.ExternalDocumentation;
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.Parameter;
@@ -34,135 +34,135 @@ import jakarta.annotation.Generated;
 
 @Generated(value = "org.openapitools.codegen.languages.SpringCodegen", comments = "Generator version: 7.7.0")
 @Validated
-@Tag(name = "OrderItemApi", description = "the OrderItemApi API")
-public interface OrderItemApiApi {
+@Tag(name = "Product", description = "the Product API")
+public interface ProductApi {
 
     /**
-     * GET /order-items : Get a list of all order items
+     * GET /products : Get a list of all products
      *
-     * @return A list of order items. (status code 200)
+     * @return A list of products. (status code 200)
      */
     @Operation(
-        operationId = "orderItemsGet",
-        summary = "Get a list of all order items",
-        tags = { "OrderItemApi" },
+        operationId = "productsGet",
+        summary = "Get a list of all products",
+        tags = { "Product" },
         responses = {
-            @ApiResponse(responseCode = "200", description = "A list of order items.", content = {
-                @Content(mediaType = "application/json", array = @ArraySchema(schema = @Schema(implementation = OrderItem.class)))
+            @ApiResponse(responseCode = "200", description = "A list of products.", content = {
+                @Content(mediaType = "application/json", array = @ArraySchema(schema = @Schema(implementation = Product.class)))
             })
         }
     )
     @RequestMapping(
         method = RequestMethod.GET,
-        value = "/order-items",
+        value = "/products",
         produces = { "application/json" }
     )
     
-    ResponseEntity<List<OrderItem>> orderItemsGet(
+    ResponseEntity<List<Product>> productsGet(
         
     ) throws Exception;
 
 
     /**
-     * DELETE /order-items/{id} : Delete an order item by ID
+     * DELETE /products/{id} : Delete a product by ID
      *
      * @param id  (required)
-     * @return Order item deleted. (status code 204)
+     * @return Product deleted. (status code 204)
      */
     @Operation(
-        operationId = "orderItemsIdDelete",
-        summary = "Delete an order item by ID",
-        tags = { "OrderItemApi" },
+        operationId = "productsIdDelete",
+        summary = "Delete a product by ID",
+        tags = { "Product" },
         responses = {
-            @ApiResponse(responseCode = "204", description = "Order item deleted.")
+            @ApiResponse(responseCode = "204", description = "Product deleted.")
         }
     )
     @RequestMapping(
         method = RequestMethod.DELETE,
-        value = "/order-items/{id}"
+        value = "/products/{id}"
     )
     
-    ResponseEntity<Void> orderItemsIdDelete(
+    ResponseEntity<Void> productsIdDelete(
         @Parameter(name = "id", description = "", required = true, in = ParameterIn.PATH) @PathVariable("id") String id
     ) throws Exception;
 
 
     /**
-     * GET /order-items/{id} : Get an order item by ID
+     * GET /products/{id} : Get a product by ID
      *
      * @param id  (required)
-     * @return A single order item. (status code 200)
+     * @return A single product. (status code 200)
      */
     @Operation(
-        operationId = "orderItemsIdGet",
-        summary = "Get an order item by ID",
-        tags = { "OrderItemApi" },
+        operationId = "productsIdGet",
+        summary = "Get a product by ID",
+        tags = { "Product" },
         responses = {
-            @ApiResponse(responseCode = "200", description = "A single order item.", content = {
-                @Content(mediaType = "application/json", schema = @Schema(implementation = OrderItem.class))
+            @ApiResponse(responseCode = "200", description = "A single product.", content = {
+                @Content(mediaType = "application/json", schema = @Schema(implementation = Product.class))
             })
         }
     )
     @RequestMapping(
         method = RequestMethod.GET,
-        value = "/order-items/{id}",
+        value = "/products/{id}",
         produces = { "application/json" }
     )
     
-    ResponseEntity<OrderItem> orderItemsIdGet(
+    ResponseEntity<Product> productsIdGet(
         @Parameter(name = "id", description = "", required = true, in = ParameterIn.PATH) @PathVariable("id") String id
     ) throws Exception;
 
 
     /**
-     * PUT /order-items/{id} : Update an existing order item
+     * PUT /products/{id} : Update an existing product
      *
      * @param id  (required)
-     * @param orderItem  (required)
-     * @return Order item updated. (status code 200)
+     * @param product  (required)
+     * @return Product updated. (status code 200)
      */
     @Operation(
-        operationId = "orderItemsIdPut",
-        summary = "Update an existing order item",
-        tags = { "OrderItemApi" },
+        operationId = "productsIdPut",
+        summary = "Update an existing product",
+        tags = { "Product" },
         responses = {
-            @ApiResponse(responseCode = "200", description = "Order item updated.")
+            @ApiResponse(responseCode = "200", description = "Product updated.")
         }
     )
     @RequestMapping(
         method = RequestMethod.PUT,
-        value = "/order-items/{id}",
+        value = "/products/{id}",
         consumes = { "application/json" }
     )
     
-    ResponseEntity<Void> orderItemsIdPut(
+    ResponseEntity<Void> productsIdPut(
         @Parameter(name = "id", description = "", required = true, in = ParameterIn.PATH) @PathVariable("id") String id,
-        @Parameter(name = "OrderItem", description = "", required = true) @Valid @RequestBody OrderItem orderItem
+        @Parameter(name = "Product", description = "", required = true) @Valid @RequestBody Product product
     ) throws Exception;
 
 
     /**
-     * POST /order-items : Create a new order item
+     * POST /products : Create a new product
      *
-     * @param orderItem  (required)
-     * @return Order item created. (status code 201)
+     * @param product  (required)
+     * @return Product created. (status code 201)
      */
     @Operation(
-        operationId = "orderItemsPost",
-        summary = "Create a new order item",
-        tags = { "OrderItemApi" },
+        operationId = "productsPost",
+        summary = "Create a new product",
+        tags = { "Product" },
         responses = {
-            @ApiResponse(responseCode = "201", description = "Order item created.")
+            @ApiResponse(responseCode = "201", description = "Product created.")
         }
     )
     @RequestMapping(
         method = RequestMethod.POST,
-        value = "/order-items",
+        value = "/products",
         consumes = { "application/json" }
     )
     
-    ResponseEntity<Void> orderItemsPost(
-        @Parameter(name = "OrderItem", description = "", required = true) @Valid @RequestBody OrderItem orderItem
+    ResponseEntity<Void> productsPost(
+        @Parameter(name = "Product", description = "", required = true) @Valid @RequestBody Product product
     ) throws Exception;
 
 }

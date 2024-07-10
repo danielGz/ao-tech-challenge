@@ -11,7 +11,7 @@ paths:
   /products:
     get:
       tags:
-        - ProductApi
+        - Product
       summary: Get a list of all products
       responses:
         '200':
@@ -24,7 +24,7 @@ paths:
                   $ref: '#/components/schemas/Product'
     post:
       tags:
-        - ProductApi
+        - Product
       summary: Create a new product
       requestBody:
         required: true
@@ -39,7 +39,7 @@ paths:
   /products/{id}:
     get:
       tags:
-        - ProductApi
+        - Product
       summary: Get a product by ID
       parameters:
         - name: id
@@ -56,7 +56,7 @@ paths:
                 $ref: '#/components/schemas/Product'
     put:
       tags:
-        - ProductApi
+        - Product
       summary: Update an existing product
       parameters:
         - name: id
@@ -75,7 +75,7 @@ paths:
           description: Product updated.
     delete:
       tags:
-        - ProductApi
+        - Product
       summary: Delete a product by ID
       parameters:
         - name: id
@@ -90,7 +90,7 @@ paths:
   /purchaseOrders:
     get:
       tags:
-        - PurchaseOrderApi
+        - PurchaseOrder
       summary: Get a list of all orders
       responses:
         '200':
@@ -103,7 +103,7 @@ paths:
                   $ref: '#/components/schemas/PurchaseOrder'
     post:
       tags:
-        - PurchaseOrderApi
+        - PurchaseOrder
       summary: Create a new order
       requestBody:
         required: true
@@ -135,7 +135,7 @@ paths:
                 $ref: '#/components/schemas/PurchaseOrder'
     put:
       tags:
-        - PurchaseOrderApi
+        - PurchaseOrder
       summary: Update an existing order
       parameters:
         - name: id
@@ -154,7 +154,7 @@ paths:
           description: Order updated.
     delete:
       tags:
-        - PurchaseOrderApi
+        - PurchaseOrder
       summary: Delete an order by ID
       parameters:
         - name: id
@@ -169,7 +169,7 @@ paths:
   /order-items:
     get:
       tags:
-        - OrderItemApi
+        - OrderItem
       summary: Get a list of all order items
       responses:
         '200':
@@ -182,7 +182,7 @@ paths:
                   $ref: '#/components/schemas/OrderItem'
     post:
       tags:
-        - OrderItemApi
+        - OrderItem
       summary: Create a new order item
       requestBody:
         required: true
@@ -197,7 +197,7 @@ paths:
   /order-items/{id}:
     get:
       tags:
-        - OrderItemApi
+        - OrderItem
       summary: Get an order item by ID
       parameters:
         - name: id
@@ -214,7 +214,7 @@ paths:
                 $ref: '#/components/schemas/OrderItem'
     put:
       tags:
-        - OrderItemApi
+        - OrderItem
       summary: Update an existing order item
       parameters:
         - name: id
@@ -233,7 +233,7 @@ paths:
           description: Order item updated.
     delete:
       tags:
-        - OrderItemApi
+        - OrderItem
       summary: Delete an order item by ID
       parameters:
         - name: id

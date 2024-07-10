@@ -38,6 +38,56 @@ import jakarta.annotation.Generated;
 public interface PurchaseOrderApi {
 
     /**
+     * GET /purchaseOrders : Get a list of all orders
+     *
+     * @return A list of orders. (status code 200)
+     */
+    @Operation(
+        operationId = "purchaseOrdersGet",
+        summary = "Get a list of all orders",
+        tags = { "PurchaseOrder" },
+        responses = {
+            @ApiResponse(responseCode = "200", description = "A list of orders.", content = {
+                @Content(mediaType = "application/json", array = @ArraySchema(schema = @Schema(implementation = PurchaseOrder.class)))
+            })
+        }
+    )
+    @RequestMapping(
+        method = RequestMethod.GET,
+        value = "/purchaseOrders",
+        produces = { "application/json" }
+    )
+    
+    ResponseEntity<List<PurchaseOrder>> purchaseOrdersGet(
+        
+    ) throws Exception;
+
+
+    /**
+     * DELETE /purchaseOrders/{id} : Delete an order by ID
+     *
+     * @param id  (required)
+     * @return Order deleted. (status code 204)
+     */
+    @Operation(
+        operationId = "purchaseOrdersIdDelete",
+        summary = "Delete an order by ID",
+        tags = { "PurchaseOrder" },
+        responses = {
+            @ApiResponse(responseCode = "204", description = "Order deleted.")
+        }
+    )
+    @RequestMapping(
+        method = RequestMethod.DELETE,
+        value = "/purchaseOrders/{id}"
+    )
+    
+    ResponseEntity<Void> purchaseOrdersIdDelete(
+        @Parameter(name = "id", description = "", required = true, in = ParameterIn.PATH) @PathVariable("id") String id
+    ) throws Exception;
+
+
+    /**
      * GET /purchaseOrders/{id} : Get an order by ID
      *
      * @param id  (required)
@@ -61,6 +111,58 @@ public interface PurchaseOrderApi {
     
     ResponseEntity<PurchaseOrder> purchaseOrdersIdGet(
         @Parameter(name = "id", description = "", required = true, in = ParameterIn.PATH) @PathVariable("id") String id
+    ) throws Exception;
+
+
+    /**
+     * PUT /purchaseOrders/{id} : Update an existing order
+     *
+     * @param id  (required)
+     * @param purchaseOrder  (required)
+     * @return Order updated. (status code 200)
+     */
+    @Operation(
+        operationId = "purchaseOrdersIdPut",
+        summary = "Update an existing order",
+        tags = { "PurchaseOrder" },
+        responses = {
+            @ApiResponse(responseCode = "200", description = "Order updated.")
+        }
+    )
+    @RequestMapping(
+        method = RequestMethod.PUT,
+        value = "/purchaseOrders/{id}",
+        consumes = { "application/json" }
+    )
+    
+    ResponseEntity<Void> purchaseOrdersIdPut(
+        @Parameter(name = "id", description = "", required = true, in = ParameterIn.PATH) @PathVariable("id") String id,
+        @Parameter(name = "PurchaseOrder", description = "", required = true) @Valid @RequestBody PurchaseOrder purchaseOrder
+    ) throws Exception;
+
+
+    /**
+     * POST /purchaseOrders : Create a new order
+     *
+     * @param purchaseOrder  (required)
+     * @return PurchaseOrder created. (status code 201)
+     */
+    @Operation(
+        operationId = "purchaseOrdersPost",
+        summary = "Create a new order",
+        tags = { "PurchaseOrder" },
+        responses = {
+            @ApiResponse(responseCode = "201", description = "PurchaseOrder created.")
+        }
+    )
+    @RequestMapping(
+        method = RequestMethod.POST,
+        value = "/purchaseOrders",
+        consumes = { "application/json" }
+    )
+    
+    ResponseEntity<Void> purchaseOrdersPost(
+        @Parameter(name = "PurchaseOrder", description = "", required = true) @Valid @RequestBody PurchaseOrder purchaseOrder
     ) throws Exception;
 
 }
