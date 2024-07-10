@@ -1,5 +1,5 @@
 // JPA Annotations Processed
-package com.agileengine.ecomm.generated.model;
+package com.agileengine.ecomm.openapi.model;
 import jakarta.persistence.*;
 
 import java.net.URI;

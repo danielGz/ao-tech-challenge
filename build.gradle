@@ -25,9 +25,9 @@ openApiGenerate {
 	outputDir = "${rootDir}"
 	println("OpenAPI outputDir : ${rootDir}")
 	generatorName = "spring"
-	apiPackage = "${group}.ecomm.generated.api"
-	invokerPackage = "${group}.ecomm.generated.api"
-	modelPackage = "${group}.ecomm.generated.model"
+	apiPackage = "${group}.ecomm.openapi"
+	invokerPackage = "${group}.ecomm.openapi"
+	modelPackage = "${group}.ecomm.openapi.model"
 	configOptions = [
 			library: "spring-boot",
 			dateLibrary: "java8",
@@ -57,7 +57,7 @@ task generateJpaAnnotations(type: Copy) {
 		println("generating JPA annotations")
 	}
 	// Define the source and temporary destination directory
-	from "$rootDir/src/main/java/com/agileengine/ecomm/generated/model"
+	from "$rootDir/src/main/java/com/agileengine/ecomm/openapi/model"
 	into "$buildDir/temp/model"
 
 	include '**/*.java'
@@ -87,7 +87,7 @@ task generateJpaAnnotations(type: Copy) {
 		// Copy the modified files back to the source directory
 		copy {
 			from "${buildDir}/temp/model"
-			into "$rootDir/src/main/java/com/agileengine/ecomm/generated/model"
+			into "$rootDir/src/main/java/com/agileengine/ecomm/openapi/model"
 		}
 		println("JPA annotations generation and copying complete.")
 

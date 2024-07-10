@@ -3,9 +3,9 @@
  * https://openapi-generator.tech
  * Do not edit the class manually.
  */
-package com.agileengine.ecomm.generated.api;
+package com.agileengine.ecomm.openapi;
 
-import com.agileengine.ecomm.generated.model.Product;
+import com.agileengine.ecomm.openapi.model.Product;
 import io.swagger.v3.oas.annotations.ExternalDocumentation;
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.Parameter;

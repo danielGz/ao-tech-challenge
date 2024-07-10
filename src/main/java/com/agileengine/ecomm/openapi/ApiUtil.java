@@ -1,4 +1,4 @@
-package com.agileengine.ecomm.generated.api;
+package com.agileengine.ecomm.openapi;
 
 import org.springframework.web.context.request.NativeWebRequest;
 

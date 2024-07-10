@@ -87,10 +87,10 @@ paths:
         '204':
           description: Product deleted.
 
-  /purchaseOrders:
+  /orders:
     get:
       tags:
-        - PurchaseOrder
+        - Order
       summary: Get a list of all orders
       responses:
         '200':
@@ -103,7 +103,7 @@ paths:
                   $ref: '#/components/schemas/PurchaseOrder'
     post:
       tags:
-        - PurchaseOrder
+        - Order
       summary: Create a new order
       requestBody:
         required: true
@@ -113,12 +113,12 @@ paths:
               $ref: '#/components/schemas/PurchaseOrder'
       responses:
         '201':
-          description: PurchaseOrder created.
+          description: Order created.
 
-  /purchaseOrders/{id}:
+  /orders/{id}:
     get:
       tags:
-        - PurchaseOrder
+        - Order
       summary: Get an order by ID
       parameters:
         - name: id
@@ -135,7 +135,7 @@ paths:
                 $ref: '#/components/schemas/PurchaseOrder'
     put:
       tags:
-        - PurchaseOrder
+        - Order
       summary: Update an existing order
       parameters:
         - name: id
@@ -154,7 +154,7 @@ paths:
           description: Order updated.
     delete:
       tags:
-        - PurchaseOrder
+        - Order
       summary: Delete an order by ID
       parameters:
         - name: id
