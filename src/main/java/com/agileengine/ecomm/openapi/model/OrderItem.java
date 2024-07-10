@@ -31,9 +31,9 @@ public class OrderItem extends RepresentationModel<OrderItem>  implements Serial
  @GeneratedValue(strategy=GenerationType.AUTO)
   private Long id;
 
-  private String purchaseOrderId;
+  private Long purchaseOrderId;
 
-  private String productId;
+  private Long productId;
 
   private Integer quantity;
 
@@ -59,7 +59,7 @@ public class OrderItem extends RepresentationModel<OrderItem>  implements Serial
     this.id = id;
   }
 
-  public OrderItem purchaseOrderId(String purchaseOrderId) {
+  public OrderItem purchaseOrderId(Long purchaseOrderId) {
     this.purchaseOrderId = purchaseOrderId;
     return this;
   }
@@ -71,15 +71,15 @@ public class OrderItem extends RepresentationModel<OrderItem>  implements Serial
   
   @Schema(name = "purchaseOrderId", requiredMode = Schema.RequiredMode.NOT_REQUIRED)
   @JsonProperty("purchaseOrderId")
-  public String getPurchaseOrderId() {
+  public Long getPurchaseOrderId() {
     return purchaseOrderId;
   }
 
-  public void setPurchaseOrderId(String purchaseOrderId) {
+  public void setPurchaseOrderId(Long purchaseOrderId) {
     this.purchaseOrderId = purchaseOrderId;
   }
 
-  public OrderItem productId(String productId) {
+  public OrderItem productId(Long productId) {
     this.productId = productId;
     return this;
   }
@@ -91,11 +91,11 @@ public class OrderItem extends RepresentationModel<OrderItem>  implements Serial
   
   @Schema(name = "productId", requiredMode = Schema.RequiredMode.NOT_REQUIRED)
   @JsonProperty("productId")
-  public String getProductId() {
+  public Long getProductId() {
     return productId;
   }
 
-  public void setProductId(String productId) {
+  public void setProductId(Long productId) {
     this.productId = productId;
   }
 

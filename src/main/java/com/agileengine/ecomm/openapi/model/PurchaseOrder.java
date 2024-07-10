@@ -34,7 +34,7 @@ public class PurchaseOrder extends RepresentationModel<PurchaseOrder>  implement
  @GeneratedValue(strategy=GenerationType.AUTO)
   private Long id;
 
-  private String productId;
+  private Long productId;
 
   private Integer quantity;
 
@@ -100,7 +100,7 @@ public class PurchaseOrder extends RepresentationModel<PurchaseOrder>  implement
     this.id = id;
   }
 
-  public PurchaseOrder productId(String productId) {
+  public PurchaseOrder productId(Long productId) {
     this.productId = productId;
     return this;
   }
@@ -112,11 +112,11 @@ public class PurchaseOrder extends RepresentationModel<PurchaseOrder>  implement
   
   @Schema(name = "productId", requiredMode = Schema.RequiredMode.NOT_REQUIRED)
   @JsonProperty("productId")
-  public String getProductId() {
+  public Long getProductId() {
     return productId;
   }
 
-  public void setProductId(String productId) {
+  public void setProductId(Long productId) {
     this.productId = productId;
   }
 
