@@ -1,3 +1,4 @@
+// JPA Annotations Processed
 package com.agileengine.ecomm.generated.model;
 import jakarta.persistence.*;
 

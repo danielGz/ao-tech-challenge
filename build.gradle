@@ -51,18 +51,28 @@ task generateJpaAnnotations(type: Copy) {
 
 	include '**/*.java'
 
+	// Define the file processing operations
 	eachFile {
-		if (it.file.text.contains("private Long id")) {
-			filter { line -> line.contains('package') ? "$line\nimport jakarta.persistence.*;" : line }
-			filter { line -> line.contains('public class') ? "@Entity\n$line" : line }
-			filter { line -> line.contains('private Long id') ? " @Id\n @GeneratedValue(strategy=GenerationType.AUTO)\n$line" : line }
+		// Prepend a comment indicating JPA annotations were added, if not already present
+		if (!it.file.text.contains("// JPA Annotations Processed")) {
+			it.file.text = "// JPA Annotations Processed\n" + it.file.text
+			// Add necessary imports and annotations for entities with a Long id field
+			if (it.file.text.contains("private Long id")) {
+				filter { line ->
+					line.contains('package') ? "$line\nimport jakarta.persistence.*;" : line
+				}
+				filter { line ->
+					line.contains('public class') ? "@Entity\n$line" : line
+				}
+				filter { line ->
+					line.contains('private Long id') ? " @Id\n @GeneratedValue(strategy=GenerationType.AUTO)\n$line" : line
+				}
+			}
 		}
 	}
 
+	// Copy the modified files back to the source directory
 	doLast {
-		ant.propertyfile(file: "$rootDir/src/main/resources/alreadyImported.properties") {
-			entry(key: "alreadyImported", value: "true")
-		}
 		copy {
 			from "${buildDir}/temp/model"
 			into "$rootDir/src/main/java/com/agileengine/ecomm/generated/model"
@@ -71,6 +81,7 @@ task generateJpaAnnotations(type: Copy) {
 }
 
 
+generateJpaAnnotations.mustRunAfter('openApiGenerate')
 
 repositories {
 	mavenCentral()

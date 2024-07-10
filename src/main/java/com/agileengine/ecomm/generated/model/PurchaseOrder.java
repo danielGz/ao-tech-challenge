@@ -1,3 +1,4 @@
+// JPA Annotations Processed
 package com.agileengine.ecomm.generated.model;
 import jakarta.persistence.*;
 
@@ -20,12 +21,12 @@ import java.util.*;
 import jakarta.annotation.Generated;
 
 /**
- * Order
+ * PurchaseOrder
  */
 
 @Generated(value = "org.openapitools.codegen.languages.SpringCodegen", comments = "Generator version: 7.7.0")
 @Entity
-public class Order extends RepresentationModel<Order>  implements Serializable {
+public class PurchaseOrder extends RepresentationModel<PurchaseOrder>  implements Serializable {
 
   private static final long serialVersionUID = 1L;
 
@@ -79,7 +80,7 @@ public class Order extends RepresentationModel<Order>  implements Serializable {
   @DateTimeFormat(iso = DateTimeFormat.ISO.DATE_TIME)
   private OffsetDateTime lastUpdated;
 
-  public Order id(Long id) {
+  public PurchaseOrder id(Long id) {
     this.id = id;
     return this;
   }
@@ -99,7 +100,7 @@ public class Order extends RepresentationModel<Order>  implements Serializable {
     this.id = id;
   }
 
-  public Order productId(String productId) {
+  public PurchaseOrder productId(String productId) {
     this.productId = productId;
     return this;
   }
@@ -119,7 +120,7 @@ public class Order extends RepresentationModel<Order>  implements Serializable {
     this.productId = productId;
   }
 
-  public Order quantity(Integer quantity) {
+  public PurchaseOrder quantity(Integer quantity) {
     this.quantity = quantity;
     return this;
   }
@@ -139,7 +140,7 @@ public class Order extends RepresentationModel<Order>  implements Serializable {
     this.quantity = quantity;
   }
 
-  public Order status(StatusEnum status) {
+  public PurchaseOrder status(StatusEnum status) {
     this.status = status;
     return this;
   }
@@ -159,7 +160,7 @@ public class Order extends RepresentationModel<Order>  implements Serializable {
     this.status = status;
   }
 
-  public Order lastUpdated(OffsetDateTime lastUpdated) {
+  public PurchaseOrder lastUpdated(OffsetDateTime lastUpdated) {
     this.lastUpdated = lastUpdated;
     return this;
   }
@@ -187,12 +188,12 @@ public class Order extends RepresentationModel<Order>  implements Serializable {
     if (o == null || getClass() != o.getClass()) {
       return false;
     }
-    Order order = (Order) o;
-    return Objects.equals(this.id, order.id) &&
-        Objects.equals(this.productId, order.productId) &&
-        Objects.equals(this.quantity, order.quantity) &&
-        Objects.equals(this.status, order.status) &&
-        Objects.equals(this.lastUpdated, order.lastUpdated);
+    PurchaseOrder purchaseOrder = (PurchaseOrder) o;
+    return Objects.equals(this.id, purchaseOrder.id) &&
+        Objects.equals(this.productId, purchaseOrder.productId) &&
+        Objects.equals(this.quantity, purchaseOrder.quantity) &&
+        Objects.equals(this.status, purchaseOrder.status) &&
+        Objects.equals(this.lastUpdated, purchaseOrder.lastUpdated);
   }
 
   @Override
@@ -203,7 +204,7 @@ public class Order extends RepresentationModel<Order>  implements Serializable {
   @Override
   public String toString() {
     StringBuilder sb = new StringBuilder();
-    sb.append("class Order {\n");
+    sb.append("class PurchaseOrder {\n");
     sb.append("    id: ").append(toIndentedString(id)).append("\n");
     sb.append("    productId: ").append(toIndentedString(productId)).append("\n");
     sb.append("    quantity: ").append(toIndentedString(quantity)).append("\n");

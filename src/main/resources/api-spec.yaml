@@ -1,7 +1,7 @@
 openapi: 3.0.0
 info:
   title: Sample API
-  description: API for managing products, orders, and order items.
+  description: API for managing products, purchase orders, and order items.
   version: 1.0.0
 
 servers:
@@ -87,10 +87,10 @@ paths:
         '204':
           description: Product deleted.
 
-  /orders:
+  /purchaseOrders:
     get:
       tags:
-        - OrderApi
+        - PurchaseOrderApi
       summary: Get a list of all orders
       responses:
         '200':
@@ -100,25 +100,25 @@ paths:
               schema:
                 type: array
                 items:
-                  $ref: '#/components/schemas/Order'
+                  $ref: '#/components/schemas/PurchaseOrder'
     post:
       tags:
-        - OrderApi
+        - PurchaseOrderApi
       summary: Create a new order
       requestBody:
         required: true
         content:
           application/json:
             schema:
-              $ref: '#/components/schemas/Order'
+              $ref: '#/components/schemas/PurchaseOrder'
       responses:
         '201':
-          description: Order created.
+          description: PurchaseOrder created.
 
-  /orders/{id}:
+  /purchaseOrders/{id}:
     get:
       tags:
-        - OrderApi
+        - PurchaseOrder
       summary: Get an order by ID
       parameters:
         - name: id
@@ -132,10 +132,10 @@ paths:
           content:
             application/json:
               schema:
-                $ref: '#/components/schemas/Order'
+                $ref: '#/components/schemas/PurchaseOrder'
     put:
       tags:
-        - OrderApi
+        - PurchaseOrderApi
       summary: Update an existing order
       parameters:
         - name: id
@@ -148,13 +148,13 @@ paths:
         content:
           application/json:
             schema:
-              $ref: '#/components/schemas/Order'
+              $ref: '#/components/schemas/PurchaseOrder'
       responses:
         '200':
           description: Order updated.
     delete:
       tags:
-        - OrderApi
+        - PurchaseOrderApi
       summary: Delete an order by ID
       parameters:
         - name: id
@@ -262,7 +262,7 @@ components:
         description:
           type: string
 
-    Order:
+    PurchaseOrder:
       type: object
       properties:
         id:
@@ -286,7 +286,7 @@ components:
         id:
           type: integer
           format: int64
-        orderId:
+        purchaseOrderId:
           type: string
         productId:
           type: string

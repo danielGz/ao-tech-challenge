@@ -1,3 +1,4 @@
+// JPA Annotations Processed
 package com.agileengine.ecomm.generated.model;
 import jakarta.persistence.*;
 
@@ -30,7 +31,7 @@ public class OrderItem extends RepresentationModel<OrderItem>  implements Serial
  @GeneratedValue(strategy=GenerationType.AUTO)
   private Long id;
 
-  private String orderId;
+  private String purchaseOrderId;
 
   private String productId;
 
@@ -58,24 +59,24 @@ public class OrderItem extends RepresentationModel<OrderItem>  implements Serial
     this.id = id;
   }
 
-  public OrderItem orderId(String orderId) {
-    this.orderId = orderId;
+  public OrderItem purchaseOrderId(String purchaseOrderId) {
+    this.purchaseOrderId = purchaseOrderId;
     return this;
   }
 
   /**
-   * Get orderId
-   * @return orderId
+   * Get purchaseOrderId
+   * @return purchaseOrderId
    */
   
-  @Schema(name = "orderId", requiredMode = Schema.RequiredMode.NOT_REQUIRED)
-  @JsonProperty("orderId")
-  public String getOrderId() {
-    return orderId;
+  @Schema(name = "purchaseOrderId", requiredMode = Schema.RequiredMode.NOT_REQUIRED)
+  @JsonProperty("purchaseOrderId")
+  public String getPurchaseOrderId() {
+    return purchaseOrderId;
   }
 
-  public void setOrderId(String orderId) {
-    this.orderId = orderId;
+  public void setPurchaseOrderId(String purchaseOrderId) {
+    this.purchaseOrderId = purchaseOrderId;
   }
 
   public OrderItem productId(String productId) {
@@ -148,7 +149,7 @@ public class OrderItem extends RepresentationModel<OrderItem>  implements Serial
     }
     OrderItem orderItem = (OrderItem) o;
     return Objects.equals(this.id, orderItem.id) &&
-        Objects.equals(this.orderId, orderItem.orderId) &&
+        Objects.equals(this.purchaseOrderId, orderItem.purchaseOrderId) &&
         Objects.equals(this.productId, orderItem.productId) &&
         Objects.equals(this.quantity, orderItem.quantity) &&
         Objects.equals(this.price, orderItem.price);
@@ -156,7 +157,7 @@ public class OrderItem extends RepresentationModel<OrderItem>  implements Serial
 
   @Override
   public int hashCode() {
-    return Objects.hash(id, orderId, productId, quantity, price);
+    return Objects.hash(id, purchaseOrderId, productId, quantity, price);
   }
 
   @Override
@@ -164,7 +165,7 @@ public class OrderItem extends RepresentationModel<OrderItem>  implements Serial
     StringBuilder sb = new StringBuilder();
     sb.append("class OrderItem {\n");
     sb.append("    id: ").append(toIndentedString(id)).append("\n");
-    sb.append("    orderId: ").append(toIndentedString(orderId)).append("\n");
+    sb.append("    purchaseOrderId: ").append(toIndentedString(purchaseOrderId)).append("\n");
     sb.append("    productId: ").append(toIndentedString(productId)).append("\n");
     sb.append("    quantity: ").append(toIndentedString(quantity)).append("\n");
     sb.append("    price: ").append(toIndentedString(price)).append("\n");
