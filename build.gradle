@@ -44,12 +44,6 @@ openApiGenerate {
 	]
 }
 
-tasks.named('openApiGenerate').configure {
-	doLast {
-		println("openApiGenerate completed.")
-	}
-}
-
 task generateJpaAnnotations(type: Copy) {
 	dependsOn 'openApiGenerate'
 	outputs.upToDateWhen { false }
@@ -66,6 +60,7 @@ task generateJpaAnnotations(type: Copy) {
 	eachFile {
 		// Prepend a comment indicating JPA annotations were added, if not already present
 		if (!it.file.text.contains("// JPA Annotations Processed")) {
+			println("Adding annotations in ${it.file.name}")
 			it.file.text = "// JPA Annotations Processed\n" + it.file.text
 			// Add necessary imports and annotations for entities
 			if (it.file.text.contains("private Long id")) {
@@ -79,6 +74,8 @@ task generateJpaAnnotations(type: Copy) {
 					line.contains('private Long id') ? " @Id\n @GeneratedValue(strategy=GenerationType.AUTO)\n$line" : line
 				}
 			}
+		}else{
+			println("No JPA annotations to add in ${it.file.name} skipping.")
 		}
 	}
 
@@ -95,6 +92,49 @@ task generateJpaAnnotations(type: Copy) {
 		delete "${buildDir}/temp/model"
 		println("Temporary files deleted.")
 	}
+}
+
+tasks.named('openApiGenerate').configure {
+	doFirst {
+		def currentSpec = file("$rootDir/src/main/resources/api-spec.yaml")
+		def previousSpec = file("$rootDir/api-spec-prev.yaml")
+
+		if (!previousSpec.exists() || !currentSpec.text.equals(previousSpec.text)) {
+			println("API spec has changed or previous spec missing. Proceeding with generation.")
+		} else {
+			println("No changes in API spec. Skipping OpenAPI generation.")
+			throw new StopExecutionException("Skipping OpenAPI generation as no changes detected.")
+		}
+	}
+
+	doLast {
+		// Ensure the API spec is updated after generation
+		copy {
+			from "$rootDir/src/main/resources/api-spec.yaml"
+			into "$rootDir"
+			rename { "api-spec-prev.yaml" }
+		}
+		println("OpenAPI generation completed. Spec has been updated.")
+	}
+}
+
+task clearAndRegenerate {
+	description = 'Clears previous API spec and regenerates JPA annotations'
+	doFirst {
+		// Delete the previous API spec file if it exists
+		def previousSpec = file("$rootDir/api-spec-prev.yaml")
+		if (previousSpec.exists()) {
+			previousSpec.delete()
+			println("Previous API spec file deleted.")
+		} else {
+			println("No previous API spec file found.")
+		}
+	}
+	finalizedBy 'generateJpaAnnotations' // This ensures that generateJpaAnnotations is called after this task
+}
+
+tasks.named('generateJpaAnnotations').configure {
+	mustRunAfter 'clearAndRegenerate'
 }
 
 repositories {

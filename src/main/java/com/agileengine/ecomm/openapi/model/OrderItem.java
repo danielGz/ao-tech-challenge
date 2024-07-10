@@ -29,7 +29,7 @@ public class OrderItem extends RepresentationModel<OrderItem>  implements Serial
 
  @Id
  @GeneratedValue(strategy=GenerationType.AUTO)
-  private Long id;
+  private Long id; //aaaa
 
   private Long purchaseOrderId;
 
