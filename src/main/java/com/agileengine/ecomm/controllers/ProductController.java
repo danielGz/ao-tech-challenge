@@ -3,7 +3,6 @@ package com.agileengine.ecomm.controllers;
 import com.agileengine.ecomm.openapi.ProductApi;
 import com.agileengine.ecomm.openapi.model.Product;
 import com.agileengine.ecomm.service.ProductService;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
@@ -14,8 +13,11 @@ import java.util.List;
 @RequestMapping("/api")
 public class ProductController implements ProductApi {
 
- @Autowired
  private ProductService productService;
+
+ public ProductController(ProductService productService) {
+  this.productService = productService;
+ }
 
  @Override
  public ResponseEntity<List<Product>> productsGet() {

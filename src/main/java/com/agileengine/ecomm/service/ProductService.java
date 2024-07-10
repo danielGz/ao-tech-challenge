@@ -1,7 +1,6 @@
 package com.agileengine.ecomm.service;
 
 import com.agileengine.ecomm.openapi.model.Product;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -10,8 +9,11 @@ import java.util.List;
 @Service
 public class ProductService {
 
- @Autowired
  private ProductRepository productRepository;
+
+ public ProductService(ProductRepository productRepository) {
+  this.productRepository = productRepository;
+ }
 
  @Transactional(readOnly = true)
  public List<Product> findAll() {
