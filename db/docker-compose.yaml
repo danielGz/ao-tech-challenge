@@ -1,0 +1,11 @@
+version: '3.8'
+
+services:
+  postgres:
+    image: postgres:latest
+    environment:
+      POSTGRES_DB: ecomm
+      POSTGRES_USER: ecomm
+      POSTGRES_PASSWORD: T3st12E
+    ports:
+      - "5432:5432"

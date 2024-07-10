@@ -1,4 +1,5 @@
 package com.agileengine.ecomm.generated.model;
+import jakarta.persistence.*;
 
 import java.net.URI;
 import java.util.Objects;
@@ -20,11 +21,14 @@ import jakarta.annotation.Generated;
  */
 
 @Generated(value = "org.openapitools.codegen.languages.SpringCodegen", comments = "Generator version: 7.7.0")
+@Entity
 public class OrderItem extends RepresentationModel<OrderItem>  implements Serializable {
 
   private static final long serialVersionUID = 1L;
 
-  private String id;
+ @Id
+ @GeneratedValue(strategy=GenerationType.AUTO)
+  private Long id;
 
   private String orderId;
 
@@ -34,7 +38,7 @@ public class OrderItem extends RepresentationModel<OrderItem>  implements Serial
 
   private Float price;
 
-  public OrderItem id(String id) {
+  public OrderItem id(Long id) {
     this.id = id;
     return this;
   }
@@ -46,11 +50,11 @@ public class OrderItem extends RepresentationModel<OrderItem>  implements Serial
   
   @Schema(name = "id", requiredMode = Schema.RequiredMode.NOT_REQUIRED)
   @JsonProperty("id")
-  public String getId() {
+  public Long getId() {
     return id;
   }
 
-  public void setId(String id) {
+  public void setId(Long id) {
     this.id = id;
   }
 

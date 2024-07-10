@@ -252,7 +252,8 @@ components:
       type: object
       properties:
         id:
-          type: string
+          type: integer
+          format: int64
         name:
           type: string
         price:
@@ -265,7 +266,8 @@ components:
       type: object
       properties:
         id:
-          type: string
+          type: integer
+          format: int64
         productId:
           type: string
         quantity:
@@ -282,7 +284,8 @@ components:
       type: object
       properties:
         id:
-          type: string
+          type: integer
+          format: int64
         orderId:
           type: string
         productId:

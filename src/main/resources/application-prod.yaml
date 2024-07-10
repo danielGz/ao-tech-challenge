@@ -1,0 +1,10 @@
+# use with export SPRING_PROFILES_ACTIVE=prod
+# java -jar -Dspring.profiles.active=prod ecomm.jar
+server:
+  port: 8080
+  servlet:
+    context-path: /api
+spring:
+  jpa:
+    hibernate:
+      ddl-auto: none

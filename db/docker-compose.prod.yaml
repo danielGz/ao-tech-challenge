@@ -1,0 +1,17 @@
+version: '3.8'
+
+services:
+  postgres:
+    image: postgres:latest
+    environment:
+      POSTGRES_DB: ecomm
+      POSTGRES_USER: ecomm
+      POSTGRES_PASSWORD: T3st12E
+    volumes:
+      - pgdata:/var/lib/postgresql/data
+      - ./init.sql:/docker-entrypoint-initdb.d/init.sql  # Mount init.sql to run on container startup
+    ports:
+      - "5432:5432"
+
+volumes:
+  pgdata: {}

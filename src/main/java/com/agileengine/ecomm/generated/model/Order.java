@@ -1,4 +1,5 @@
 package com.agileengine.ecomm.generated.model;
+import jakarta.persistence.*;
 
 import java.net.URI;
 import java.util.Objects;
@@ -23,11 +24,14 @@ import jakarta.annotation.Generated;
  */
 
 @Generated(value = "org.openapitools.codegen.languages.SpringCodegen", comments = "Generator version: 7.7.0")
+@Entity
 public class Order extends RepresentationModel<Order>  implements Serializable {
 
   private static final long serialVersionUID = 1L;
 
-  private String id;
+ @Id
+ @GeneratedValue(strategy=GenerationType.AUTO)
+  private Long id;
 
   private String productId;
 
@@ -75,7 +79,7 @@ public class Order extends RepresentationModel<Order>  implements Serializable {
   @DateTimeFormat(iso = DateTimeFormat.ISO.DATE_TIME)
   private OffsetDateTime lastUpdated;
 
-  public Order id(String id) {
+  public Order id(Long id) {
     this.id = id;
     return this;
   }
@@ -87,11 +91,11 @@ public class Order extends RepresentationModel<Order>  implements Serializable {
   
   @Schema(name = "id", requiredMode = Schema.RequiredMode.NOT_REQUIRED)
   @JsonProperty("id")
-  public String getId() {
+  public Long getId() {
     return id;
   }
 
-  public void setId(String id) {
+  public void setId(Long id) {
     this.id = id;
   }
 
