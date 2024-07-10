@@ -268,11 +268,6 @@ components:
         id:
           type: integer
           format: int64
-        productId:
-          type: integer
-          format: int64
-        quantity:
-          type: integer
         status:
           type: string
           enum: [pending, completed, cancelled]
@@ -280,6 +275,13 @@ components:
           type: string
           format: date-time
           description: The date and time when the order was last updated.
+        orderItemIds:
+          type: array
+          items:
+            type: integer
+            format: int64
+          description: "IDs of order items associated with this purchase order."
+
 
     OrderItem:
       type: object

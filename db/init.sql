@@ -1,23 +1,28 @@
--- init.sql
-CREATE TABLE IF NOT EXISTS Product (
-        id SERIAL PRIMARY KEY,
-        name VARCHAR(255),
-        price FLOAT,
-        description TEXT);
 
-CREATE TABLE IF NOT EXISTS "Order" (
-    id SERIAL PRIMARY KEY,
-    product_id INT,
-    quantity INT,
-    status VARCHAR(50) CHECK (status IN ('pending', 'completed', 'cancelled')),
-    last_updated TIMESTAMP,
-    FOREIGN KEY (product_id) REFERENCES Product(id));
-
-CREATE TABLE IF NOT EXISTS OrderItem (
-     id SERIAL PRIMARY KEY,
-     order_id INT,
-     product_id INT,
-     quantity INT,
-     price FLOAT,
-     FOREIGN KEY (order_id) REFERENCES "Order"(id),
-    FOREIGN KEY (product_id) REFERENCES Product(id));
+CREATE TABLE Product (
+                         id BIGSERIAL PRIMARY KEY,
+                         name VARCHAR(255),
+                         price FLOAT,
+                         description TEXT
+);
+CREATE TABLE OrderItem (
+                           id BIGSERIAL PRIMARY KEY,
+                           purchase_order_id BIGINT,
+                           product_id BIGINT,
+                           quantity INTEGER,
+                           price FLOAT,
+                           FOREIGN KEY (purchase_order_id) REFERENCES PurchaseOrder(id),
+                           FOREIGN KEY (product_id) REFERENCES Product(id)
+);
+CREATE TABLE PurchaseOrder (
+                               id BIGSERIAL PRIMARY KEY,
+                               status VARCHAR(50),
+                               last_updated TIMESTAMP WITH TIME ZONE,
+);
+CREATE TABLE PurchaseOrderItems (
+                                    purchase_order_id BIGINT,
+                                    order_item_id BIGINT,
+                                    PRIMARY KEY (purchase_order_id, order_item_id),
+                                    FOREIGN KEY (purchase_order_id) REFERENCES PurchaseOrder(id),
+                                    FOREIGN KEY (order_item_id) REFERENCES OrderItem(id)
+);

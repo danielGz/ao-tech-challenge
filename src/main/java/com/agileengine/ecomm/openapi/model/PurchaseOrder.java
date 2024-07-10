@@ -8,6 +8,9 @@ import com.fasterxml.jackson.annotation.JsonProperty;
 import com.fasterxml.jackson.annotation.JsonCreator;
 import com.fasterxml.jackson.annotation.JsonValue;
 import java.time.OffsetDateTime;
+import java.util.ArrayList;
+import java.util.Arrays;
+import java.util.List;
 import org.springframework.format.annotation.DateTimeFormat;
 import java.io.Serializable;
 import java.time.OffsetDateTime;
@@ -33,10 +36,6 @@ public class PurchaseOrder extends RepresentationModel<PurchaseOrder>  implement
  @Id
  @GeneratedValue(strategy=GenerationType.AUTO)
   private Long id;
-
-  private Long productId;
-
-  private Integer quantity;
 
   /**
    * Gets or Sets status
@@ -80,6 +79,9 @@ public class PurchaseOrder extends RepresentationModel<PurchaseOrder>  implement
   @DateTimeFormat(iso = DateTimeFormat.ISO.DATE_TIME)
   private OffsetDateTime lastUpdated;
 
+  @Valid
+  private List<Long> orderItemIds = new ArrayList<>();
+
   public PurchaseOrder id(Long id) {
     this.id = id;
     return this;
@@ -98,46 +100,6 @@ public class PurchaseOrder extends RepresentationModel<PurchaseOrder>  implement
 
   public void setId(Long id) {
     this.id = id;
-  }
-
-  public PurchaseOrder productId(Long productId) {
-    this.productId = productId;
-    return this;
-  }
-
-  /**
-   * Get productId
-   * @return productId
-   */
-  
-  @Schema(name = "productId", requiredMode = Schema.RequiredMode.NOT_REQUIRED)
-  @JsonProperty("productId")
-  public Long getProductId() {
-    return productId;
-  }
-
-  public void setProductId(Long productId) {
-    this.productId = productId;
-  }
-
-  public PurchaseOrder quantity(Integer quantity) {
-    this.quantity = quantity;
-    return this;
-  }
-
-  /**
-   * Get quantity
-   * @return quantity
-   */
-  
-  @Schema(name = "quantity", requiredMode = Schema.RequiredMode.NOT_REQUIRED)
-  @JsonProperty("quantity")
-  public Integer getQuantity() {
-    return quantity;
-  }
-
-  public void setQuantity(Integer quantity) {
-    this.quantity = quantity;
   }
 
   public PurchaseOrder status(StatusEnum status) {
@@ -180,6 +142,34 @@ public class PurchaseOrder extends RepresentationModel<PurchaseOrder>  implement
     this.lastUpdated = lastUpdated;
   }
 
+  public PurchaseOrder orderItemIds(List<Long> orderItemIds) {
+    this.orderItemIds = orderItemIds;
+    return this;
+  }
+
+  public PurchaseOrder addOrderItemIdsItem(Long orderItemIdsItem) {
+    if (this.orderItemIds == null) {
+      this.orderItemIds = new ArrayList<>();
+    }
+    this.orderItemIds.add(orderItemIdsItem);
+    return this;
+  }
+
+  /**
+   * IDs of order items associated with this purchase order.
+   * @return orderItemIds
+   */
+  
+  @Schema(name = "orderItemIds", description = "IDs of order items associated with this purchase order.", requiredMode = Schema.RequiredMode.NOT_REQUIRED)
+  @JsonProperty("orderItemIds")
+  public List<Long> getOrderItemIds() {
+    return orderItemIds;
+  }
+
+  public void setOrderItemIds(List<Long> orderItemIds) {
+    this.orderItemIds = orderItemIds;
+  }
+
   @Override
   public boolean equals(Object o) {
     if (this == o) {
@@ -190,15 +180,14 @@ public class PurchaseOrder extends RepresentationModel<PurchaseOrder>  implement
     }
     PurchaseOrder purchaseOrder = (PurchaseOrder) o;
     return Objects.equals(this.id, purchaseOrder.id) &&
-        Objects.equals(this.productId, purchaseOrder.productId) &&
-        Objects.equals(this.quantity, purchaseOrder.quantity) &&
         Objects.equals(this.status, purchaseOrder.status) &&
-        Objects.equals(this.lastUpdated, purchaseOrder.lastUpdated);
+        Objects.equals(this.lastUpdated, purchaseOrder.lastUpdated) &&
+        Objects.equals(this.orderItemIds, purchaseOrder.orderItemIds);
   }
 
   @Override
   public int hashCode() {
-    return Objects.hash(id, productId, quantity, status, lastUpdated);
+    return Objects.hash(id, status, lastUpdated, orderItemIds);
   }
 
   @Override
@@ -206,10 +195,9 @@ public class PurchaseOrder extends RepresentationModel<PurchaseOrder>  implement
     StringBuilder sb = new StringBuilder();
     sb.append("class PurchaseOrder {\n");
     sb.append("    id: ").append(toIndentedString(id)).append("\n");
-    sb.append("    productId: ").append(toIndentedString(productId)).append("\n");
-    sb.append("    quantity: ").append(toIndentedString(quantity)).append("\n");
     sb.append("    status: ").append(toIndentedString(status)).append("\n");
     sb.append("    lastUpdated: ").append(toIndentedString(lastUpdated)).append("\n");
+    sb.append("    orderItemIds: ").append(toIndentedString(orderItemIds)).append("\n");
     sb.append("}");
     return sb.toString();
   }
