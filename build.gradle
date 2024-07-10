@@ -1,3 +1,4 @@
+// Plugin definitions
 plugins {
 	id 'java'
 	id 'org.springframework.boot' version '3.3.1'
@@ -5,21 +6,45 @@ plugins {
 	id 'org.openapi.generator' version '7.7.0'
 }
 
+// Group and version settings
 group = 'com.agileengine'
 version = '0.0.1-SNAPSHOT'
 
+// Java toolchain configuration
 java {
 	toolchain {
 		languageVersion = JavaLanguageVersion.of(21)
 	}
 }
 
+// Dependency configurations
 configurations {
 	compileOnly {
 		extendsFrom annotationProcessor
 	}
 }
 
+// Repository configurations
+repositories {
+	mavenCentral()
+}
+
+// Dependency declarations
+dependencies {
+	implementation 'org.springframework.boot:spring-boot-starter-web'
+	implementation 'org.springdoc:springdoc-openapi-starter-webmvc-ui:2.6.0'
+	implementation 'javax.servlet:javax.servlet-api:4.0.1'
+	implementation 'org.springframework.boot:spring-boot-starter-hateoas'
+	implementation 'io.swagger.core.v3:swagger-annotations:2.2.20'
+	implementation 'org.springframework.boot:spring-boot-starter-data-jpa'
+	runtimeOnly 'org.postgresql:postgresql'
+	compileOnly 'org.projectlombok:lombok'
+	annotationProcessor 'org.projectlombok:lombok'
+	testImplementation 'org.springframework.boot:spring-boot-starter-test'
+	testRuntimeOnly 'org.junit.platform:junit-platform-launcher'
+}
+
+// OpenAPI Generator task configuration
 openApiGenerate {
 	inputSpec.set("$rootDir/src/main/resources/api-spec.yaml")
 	outputDir = "${rootDir}"
@@ -44,25 +69,20 @@ openApiGenerate {
 	]
 }
 
+// Tasks for managing API generation and model processing
 task generateJpaAnnotations(type: Copy) {
 	dependsOn 'openApiGenerate'
 	outputs.upToDateWhen { false }
 	doFirst {
 		println("generating JPA annotations")
 	}
-	// Define the source and temporary destination directory
 	from "$rootDir/src/main/java/com/agileengine/ecomm/openapi/model"
 	into "$buildDir/temp/model"
-
 	include '**/*.java'
-
-	// Define the file processing operations
 	eachFile {
-		// Prepend a comment indicating JPA annotations were added, if not already present
 		if (!it.file.text.contains("// JPA Annotations Processed")) {
 			println("Adding annotations in ${it.file.name}")
 			it.file.text = "// JPA Annotations Processed\n" + it.file.text
-			// Add necessary imports and annotations for entities
 			if (it.file.text.contains("private Long id")) {
 				filter { line ->
 					line.contains('package') ? "$line\nimport jakarta.persistence.*;" : line
@@ -74,54 +94,21 @@ task generateJpaAnnotations(type: Copy) {
 					line.contains('private Long id') ? " @Id\n @GeneratedValue(strategy=GenerationType.AUTO)\n$line" : line
 				}
 			}
-		}else{
-			println("No JPA annotations to add in ${it.file.name} skipping.")
 		}
 	}
-
-	// Copy the modified files back to the source directory
 	doLast {
-		// Copy the modified files back to the source directory
 		copy {
 			from "${buildDir}/temp/model"
 			into "$rootDir/src/main/java/com/agileengine/ecomm/openapi/model"
 		}
-		println("JPA annotations generation and copying complete.")
-
-		// Delete the temporary files after copying them back
 		delete "${buildDir}/temp/model"
-		println("Temporary files deleted.")
-	}
-}
-
-tasks.named('openApiGenerate').configure {
-	doFirst {
-		def currentSpec = file("$rootDir/src/main/resources/api-spec.yaml")
-		def previousSpec = file("$rootDir/api-spec-prev.yaml")
-
-		if (!previousSpec.exists() || !currentSpec.text.equals(previousSpec.text)) {
-			println("API spec has changed or previous spec missing. Proceeding with generation.")
-		} else {
-			println("No changes in API spec. Skipping OpenAPI generation.")
-			throw new StopExecutionException("Skipping OpenAPI generation as no changes detected.")
-		}
-	}
-
-	doLast {
-		// Ensure the API spec is updated after generation
-		copy {
-			from "$rootDir/src/main/resources/api-spec.yaml"
-			into "$rootDir"
-			rename { "api-spec-prev.yaml" }
-		}
-		println("OpenAPI generation completed. Spec has been updated.")
+		println("JPA annotations generation and copying complete.")
 	}
 }
 
 task clearAndRegenerate {
 	description = 'Clears previous API spec and regenerates JPA annotations'
 	doFirst {
-		// Delete the previous API spec file if it exists
 		def previousSpec = file("$rootDir/api-spec-prev.yaml")
 		if (previousSpec.exists()) {
 			previousSpec.delete()
@@ -130,40 +117,38 @@ task clearAndRegenerate {
 			println("No previous API spec file found.")
 		}
 	}
-	finalizedBy 'generateJpaAnnotations' // This ensures that generateJpaAnnotations is called after this task
+	finalizedBy 'generateJpaAnnotations'
 }
 
-tasks.named('generateJpaAnnotations').configure {
-	mustRunAfter 'clearAndRegenerate'
-}
-
-repositories {
-	mavenCentral()
-}
-
-dependencies {
-	implementation 'org.springframework.boot:spring-boot-starter-web'
-	implementation 'org.springdoc:springdoc-openapi-starter-webmvc-ui:2.6.0'
-	implementation 'javax.servlet:javax.servlet-api:4.0.1'
-	implementation 'org.springframework.boot:spring-boot-starter-hateoas'
-	implementation 'io.swagger.core.v3:swagger-annotations:2.2.20'
-	implementation 'org.springframework.boot:spring-boot-starter-data-jpa'
-	runtimeOnly 'org.postgresql:postgresql'
-	compileOnly 'org.projectlombok:lombok'
-	annotationProcessor 'org.projectlombok:lombok'
-	testImplementation 'org.springframework.boot:spring-boot-starter-test'
-	testRuntimeOnly 'org.junit.platform:junit-platform-launcher'
-}
-
-tasks.named('test') {
-	useJUnitPlatform()
-}
-// List of task names that should depend on 'openApiGenerate'
+// Task dependencies and testing configuration
 def tasksDependingOnOpenApi = ['jar', 'bootJar', 'resolveMainClassName', 'compileJava', 'processResources']
-
 tasksDependingOnOpenApi.each { taskName ->
 	tasks.named(taskName).configure {
 		dependsOn 'generateJpaAnnotations'
 	}
 }
 
+tasks.named('test') {
+	useJUnitPlatform()
+}
+
+tasks.named('openApiGenerate').configure {
+	doFirst {
+		def currentSpec = file("$rootDir/src/main/resources/api-spec.yaml")
+		def previousSpec = file("$rootDir/api-spec-prev.yaml")
+		if (!previousSpec.exists() || !currentSpec.text.equals(previousSpec.text)) {
+			println("API spec has changed or previous spec missing. Proceeding with generation.")
+		} else {
+			println("No changes in API spec. Skipping OpenAPI generation.")
+			throw new StopExecutionException("Skipping OpenAPI generation as no changes detected.")
+		}
+	}
+	doLast {
+		copy {
+			from "$rootDir/src/main/resources/api-spec.yaml"
+			into "$rootDir"
+			rename { "api-spec-prev.yaml" }
+		}
+		println("OpenAPI generation completed. Spec has been updated.")
+	}
+}
