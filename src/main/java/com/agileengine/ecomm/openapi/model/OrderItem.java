@@ -1,11 +1,13 @@
 // JPA Annotations Processed
 package com.agileengine.ecomm.openapi.model;
 import jakarta.persistence.*;
+import com.fasterxml.jackson.annotation.*;
 import com.fasterxml.jackson.annotation.JsonIdentityInfo;
 import com.fasterxml.jackson.annotation.ObjectIdGenerators;
 
 import java.net.URI;
 import java.util.Objects;
+import com.agileengine.ecomm.openapi.model.Product;
 import com.agileengine.ecomm.openapi.model.PurchaseOrder;
 import com.fasterxml.jackson.annotation.JsonProperty;
 import com.fasterxml.jackson.annotation.JsonCreator;
@@ -26,7 +28,6 @@ import jakarta.annotation.Generated;
 
 @Generated(value = "org.openapitools.codegen.languages.SpringCodegen", comments = "Generator version: 7.7.0")
 @Entity
-@JsonIdentityInfo(generator = ObjectIdGenerators.PropertyGenerator.class, property = "id")
 public class OrderItem extends RepresentationModel<OrderItem>  implements Serializable {
 
   private static final long serialVersionUID = 1L;
@@ -35,10 +36,12 @@ public class OrderItem extends RepresentationModel<OrderItem>  implements Serial
   @GeneratedValue(strategy=GenerationType.AUTO)
   private Long id;
 
+  @JsonIgnore
   @ManyToOne
   private PurchaseOrder purchaseOrder;
 
-  private Long productId;
+  @ManyToOne
+  private Product product;
 
   private Integer quantity;
 
@@ -75,7 +78,6 @@ public class OrderItem extends RepresentationModel<OrderItem>  implements Serial
    */
   @Valid 
   @Schema(name = "purchaseOrder", requiredMode = Schema.RequiredMode.NOT_REQUIRED)
-  @JsonProperty("purchaseOrder")
   public PurchaseOrder getPurchaseOrder() {
     return purchaseOrder;
   }
@@ -84,24 +86,24 @@ public class OrderItem extends RepresentationModel<OrderItem>  implements Serial
     this.purchaseOrder = purchaseOrder;
   }
 
-  public OrderItem productId(Long productId) {
-    this.productId = productId;
+  public OrderItem product(Product product) {
+    this.product = product;
     return this;
   }
 
   /**
-   * Get productId
-   * @return productId
+   * Get product
+   * @return product
    */
-  
-  @Schema(name = "productId", requiredMode = Schema.RequiredMode.NOT_REQUIRED)
-  @JsonProperty("productId")
-  public Long getProductId() {
-    return productId;
+  @Valid 
+  @Schema(name = "product", requiredMode = Schema.RequiredMode.NOT_REQUIRED)
+  @JsonProperty("product")
+  public Product getProduct() {
+    return product;
   }
 
-  public void setProductId(Long productId) {
-    this.productId = productId;
+  public void setProduct(Product product) {
+    this.product = product;
   }
 
   public OrderItem quantity(Integer quantity) {
@@ -155,14 +157,14 @@ public class OrderItem extends RepresentationModel<OrderItem>  implements Serial
     OrderItem orderItem = (OrderItem) o;
     return Objects.equals(this.id, orderItem.id) &&
         Objects.equals(this.purchaseOrder, orderItem.purchaseOrder) &&
-        Objects.equals(this.productId, orderItem.productId) &&
+        Objects.equals(this.product, orderItem.product) &&
         Objects.equals(this.quantity, orderItem.quantity) &&
         Objects.equals(this.price, orderItem.price);
   }
 
   @Override
   public int hashCode() {
-    return Objects.hash(id, purchaseOrder, productId, quantity, price);
+    return Objects.hash(id, purchaseOrder, product, quantity, price);
   }
 
   @Override
@@ -171,7 +173,7 @@ public class OrderItem extends RepresentationModel<OrderItem>  implements Serial
     sb.append("class OrderItem {\n");
     sb.append("    id: ").append(toIndentedString(id)).append("\n");
     sb.append("    purchaseOrder: ").append(toIndentedString(purchaseOrder)).append("\n");
-    sb.append("    productId: ").append(toIndentedString(productId)).append("\n");
+    sb.append("    product: ").append(toIndentedString(product)).append("\n");
     sb.append("    quantity: ").append(toIndentedString(quantity)).append("\n");
     sb.append("    price: ").append(toIndentedString(price)).append("\n");
     sb.append("}");

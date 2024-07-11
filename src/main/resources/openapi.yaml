@@ -289,9 +289,8 @@ components:
           format: int64
         purchaseOrder:
           $ref: '#/components/schemas/PurchaseOrder'
-        productId:
-          type: integer
-          format: int64
+        product:
+          $ref: '#/components/schemas/Product'
         quantity:
           type: integer
         price:

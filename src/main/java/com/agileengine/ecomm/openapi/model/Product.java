@@ -1,6 +1,7 @@
 // JPA Annotations Processed
 package com.agileengine.ecomm.openapi.model;
 import jakarta.persistence.*;
+import com.fasterxml.jackson.annotation.*;
 import com.fasterxml.jackson.annotation.JsonIdentityInfo;
 import com.fasterxml.jackson.annotation.ObjectIdGenerators;
 
@@ -25,7 +26,6 @@ import jakarta.annotation.Generated;
 
 @Generated(value = "org.openapitools.codegen.languages.SpringCodegen", comments = "Generator version: 7.7.0")
 @Entity
-@JsonIdentityInfo(generator = ObjectIdGenerators.PropertyGenerator.class, property = "id")
 public class Product extends RepresentationModel<Product>  implements Serializable {
 
   private static final long serialVersionUID = 1L;

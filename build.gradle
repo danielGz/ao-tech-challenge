@@ -93,24 +93,33 @@ task generateJpaAnnotations(type: Copy) {
 
 			// Import JPA annotations if 'id' field exists
 			if (content.contains("private Long id")) {
-				content = content.replaceAll('package (.*);', '$0\nimport jakarta.persistence.*;\nimport com.fasterxml.jackson.annotation.JsonIdentityInfo;\nimport com.fasterxml.jackson.annotation.ObjectIdGenerators;')
-				content = content.replaceAll('public class (.*?) \\{', '@Entity\n@JsonIdentityInfo(generator = ObjectIdGenerators.PropertyGenerator.class, property = "id")\npublic class $1 {')
+				content = content.replaceAll('package (.*);', '$0\nimport jakarta.persistence.*;\nimport com.fasterxml.jackson.annotation.*;\nimport com.fasterxml.jackson.annotation.JsonIdentityInfo;\nimport com.fasterxml.jackson.annotation.ObjectIdGenerators;')
+				content = content.replaceAll('public class (.*) \\{', '@Entity\npublic class $1 {')
 				content = content.replaceAll('private Long id;', '@Id\n  @GeneratedValue(strategy=GenerationType.AUTO)\n  private Long id;')
 			}
 
 			// Apply dynamic relations from properties
 			relations.each { key, value ->
-				String entity = key.split('=')[0]
-				String relation = value.split(':')[0]
-				String relatedEntity = value.split(':')[1]
+				String entity = key
+				// Splitting on comma to handle multiple relationships
+				value.split(',').each { relationship ->
+					String relation = relationship.split(':')[0].trim()
+					String relatedEntity = relationship.split(':')[1].trim()
 
-				if (content.contains("class $entity")) {
-					if (relation == "ManyToOne") {
-						// For @ManyToOne
-						content = content.replaceAll('private ' + relatedEntity + ' (.*);', '@ManyToOne\n  private ' + relatedEntity + ' $1;')
-					} else if (relation == "OneToMany") {
-						String mappedByField = entity[0].toLowerCase() + entity.substring(1)
-						content = content.replaceAll('private List<.*' + relatedEntity + '> (.*);', '@OneToMany(mappedBy="' + mappedByField + '", cascade = CascadeType.ALL, fetch = FetchType.LAZY)\n  private List<' + relatedEntity + '> $1;')
+					if (content.contains("class $entity")) {
+						if (relation == "ManyToOne") {
+							// Check for reciprocal OneToMany and add JsonIgnore
+							if (relations.getProperty(relatedEntity)?.contains("OneToMany:" + entity)) {
+								content = content.replaceAll('private ' + relatedEntity + ' (.*);', '@JsonIgnore\n  @ManyToOne\n  private ' + relatedEntity + ' $1;')
+								String fieldName = relatedEntity[0].toLowerCase() + relatedEntity.substring(1)
+								content = content.replaceAll('@JsonProperty\\("' + fieldName + '"\\)\\s*', '')
+							}else{
+								content = content.replaceAll('private ' + relatedEntity + ' (.*);', '@ManyToOne\n  private ' + relatedEntity + ' $1;')
+							}
+						} else if (relation == "OneToMany") {
+							String mappedByField = entity[0].toLowerCase() + entity.substring(1)
+							content = content.replaceAll('private List<.*' + relatedEntity + '> (.*);', '@OneToMany(mappedBy="' + mappedByField + '", cascade = CascadeType.ALL, fetch = FetchType.LAZY)\n  private List<' + relatedEntity + '> $1;')
+						}
 					}
 				}
 			}
