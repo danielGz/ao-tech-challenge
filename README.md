@@ -20,6 +20,7 @@ Run `./gradlew build` after checking the code into your local environment.
 > the build lifecycle is configured to run `openApiGenerate` followed by `generateJpaAnnotations`
 
 > For a complete refresh run `./gradlew clearAndRegenerate`
+> Relations between entities are included here [entity-relations.properties](src/main/resources/entity-relations.properties) given that openapi cannot automatically resolve them
 
 ### 3. Start the database
 **Quick start:**  `docker run --name postgres-local -e POSTGRES_DB=ecomm -e POSTGRES_USER=ecomm -e POSTGRES_PASSWORD=T3st12E -p 5432:5432 -d postgres:latest`
