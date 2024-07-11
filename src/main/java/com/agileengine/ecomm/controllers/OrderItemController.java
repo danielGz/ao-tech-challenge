@@ -37,15 +37,17 @@ public class OrderItemController implements OrderItemApi {
  }
 
  @Override
- public ResponseEntity<Void> orderItemsIdPut(String id, OrderItem orderItem) {
+ public ResponseEntity<OrderItem> orderItemsIdPut(String id, OrderItem orderItem) {
   orderItem.setId(Long.parseLong(id));
   OrderItem updatedOrderItem = orderItemService.update(orderItem);
-  return updatedOrderItem != null ? ResponseEntity.ok().build() : ResponseEntity.notFound().build();
+  return updatedOrderItem != null ? ResponseEntity.ok(updatedOrderItem) : ResponseEntity.notFound().build();
  }
 
  @Override
- public ResponseEntity<Void> orderItemsPost(OrderItem orderItem) {
+ public ResponseEntity<OrderItem> orderItemsPost(OrderItem orderItem) {
   OrderItem createdOrderItem = orderItemService.create(orderItem);
-  return ResponseEntity.created(URI.create("/api/order-items/" + createdOrderItem.getId())).build();
+  URI location = URI.create("/api/order-items/" + createdOrderItem.getId());
+  return ResponseEntity.created(location).body(createdOrderItem);
  }
+
 }

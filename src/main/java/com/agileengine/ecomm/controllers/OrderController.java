@@ -12,7 +12,6 @@ import java.util.List;
 @RestController
 public class OrderController implements OrderApi {
 
-
  private OrderService orderService;
 
  public OrderController(OrderService orderService) {
@@ -38,15 +37,16 @@ public class OrderController implements OrderApi {
  }
 
  @Override
- public ResponseEntity<Void> ordersIdPut(String id, PurchaseOrder purchaseOrder) {
+ public ResponseEntity<PurchaseOrder> ordersIdPut(String id, PurchaseOrder purchaseOrder) {
   purchaseOrder.setId(Long.parseLong(id));
   PurchaseOrder updatedOrder = orderService.update(purchaseOrder);
-  return updatedOrder != null ? ResponseEntity.ok().build() : ResponseEntity.notFound().build();
+  return updatedOrder != null ? ResponseEntity.ok(updatedOrder) : ResponseEntity.notFound().build();
  }
 
  @Override
- public ResponseEntity<Void> ordersPost(PurchaseOrder purchaseOrder) {
+ public ResponseEntity<PurchaseOrder> ordersPost(PurchaseOrder purchaseOrder) {
   PurchaseOrder createdOrder = orderService.create(purchaseOrder);
-  return ResponseEntity.created(URI.create("/api/orders/" + createdOrder.getId())).build();
+  URI location = URI.create("/api/orders/" + createdOrder.getId());
+  return ResponseEntity.created(location).body(createdOrder);
  }
 }

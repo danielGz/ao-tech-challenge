@@ -37,15 +37,16 @@ public class ProductController implements ProductApi {
  }
 
  @Override
- public ResponseEntity<Void> productsIdPut(String id, Product product) {
+ public ResponseEntity<Product> productsIdPut(String id, Product product) {
   product.setId(Long.parseLong(id));
   Product updatedProduct = productService.update(product);
-  return updatedProduct != null ? ResponseEntity.ok().build() : ResponseEntity.notFound().build();
+  return updatedProduct != null ? ResponseEntity.ok(updatedProduct) : ResponseEntity.notFound().build();
  }
 
  @Override
- public ResponseEntity<Void> productsPost(Product product) {
+ public ResponseEntity<Product> productsPost(Product product) {
   Product createdProduct = productService.create(product);
-  return ResponseEntity.created(URI.create("/api/products/" + createdProduct.getId())).build();
+  URI location = URI.create("/api/products/" + createdProduct.getId());
+  return ResponseEntity.created(location).body(createdProduct);
  }
 }

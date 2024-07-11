@@ -35,6 +35,10 @@ paths:
       responses:
         '201':
           description: Product created.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Product'
 
   /products/{id}:
     get:
@@ -73,6 +77,10 @@ paths:
       responses:
         '200':
           description: Product updated.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Product'
     delete:
       tags:
         - Product
@@ -114,6 +122,10 @@ paths:
       responses:
         '201':
           description: Order created.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/PurchaseOrder'
 
   /orders/{id}:
     get:
@@ -152,6 +164,10 @@ paths:
       responses:
         '200':
           description: Order updated.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/PurchaseOrder'
     delete:
       tags:
         - Order
@@ -193,6 +209,10 @@ paths:
       responses:
         '201':
           description: Order item created.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/OrderItem'
 
   /order-items/{id}:
     get:
@@ -231,6 +251,10 @@ paths:
       responses:
         '200':
           description: Order item updated.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/OrderItem'
     delete:
       tags:
         - OrderItem

@@ -126,16 +126,19 @@ public interface ProductApi {
         summary = "Update an existing product",
         tags = { "Product" },
         responses = {
-            @ApiResponse(responseCode = "200", description = "Product updated.")
+            @ApiResponse(responseCode = "200", description = "Product updated.", content = {
+                @Content(mediaType = "application/json", schema = @Schema(implementation = Product.class))
+            })
         }
     )
     @RequestMapping(
         method = RequestMethod.PUT,
         value = "/products/{id}",
+        produces = { "application/json" },
         consumes = { "application/json" }
     )
     
-    ResponseEntity<Void> productsIdPut(
+    ResponseEntity<Product> productsIdPut(
         @Parameter(name = "id", description = "", required = true, in = ParameterIn.PATH) @PathVariable("id") String id,
         @Parameter(name = "Product", description = "", required = true) @Valid @RequestBody Product product
     ) throws Exception;
@@ -152,16 +155,19 @@ public interface ProductApi {
         summary = "Create a new product",
         tags = { "Product" },
         responses = {
-            @ApiResponse(responseCode = "201", description = "Product created.")
+            @ApiResponse(responseCode = "201", description = "Product created.", content = {
+                @Content(mediaType = "application/json", schema = @Schema(implementation = Product.class))
+            })
         }
     )
     @RequestMapping(
         method = RequestMethod.POST,
         value = "/products",
+        produces = { "application/json" },
         consumes = { "application/json" }
     )
     
-    ResponseEntity<Void> productsPost(
+    ResponseEntity<Product> productsPost(
         @Parameter(name = "Product", description = "", required = true) @Valid @RequestBody Product product
     ) throws Exception;
 

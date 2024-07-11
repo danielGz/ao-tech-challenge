@@ -126,16 +126,19 @@ public interface OrderApi {
         summary = "Update an existing order",
         tags = { "Order" },
         responses = {
-            @ApiResponse(responseCode = "200", description = "Order updated.")
+            @ApiResponse(responseCode = "200", description = "Order updated.", content = {
+                @Content(mediaType = "application/json", schema = @Schema(implementation = PurchaseOrder.class))
+            })
         }
     )
     @RequestMapping(
         method = RequestMethod.PUT,
         value = "/orders/{id}",
+        produces = { "application/json" },
         consumes = { "application/json" }
     )
     
-    ResponseEntity<Void> ordersIdPut(
+    ResponseEntity<PurchaseOrder> ordersIdPut(
         @Parameter(name = "id", description = "", required = true, in = ParameterIn.PATH) @PathVariable("id") String id,
         @Parameter(name = "PurchaseOrder", description = "", required = true) @Valid @RequestBody PurchaseOrder purchaseOrder
     ) throws Exception;
@@ -152,16 +155,19 @@ public interface OrderApi {
         summary = "Create a new order",
         tags = { "Order" },
         responses = {
-            @ApiResponse(responseCode = "201", description = "Order created.")
+            @ApiResponse(responseCode = "201", description = "Order created.", content = {
+                @Content(mediaType = "application/json", schema = @Schema(implementation = PurchaseOrder.class))
+            })
         }
     )
     @RequestMapping(
         method = RequestMethod.POST,
         value = "/orders",
+        produces = { "application/json" },
         consumes = { "application/json" }
     )
     
-    ResponseEntity<Void> ordersPost(
+    ResponseEntity<PurchaseOrder> ordersPost(
         @Parameter(name = "PurchaseOrder", description = "", required = true) @Valid @RequestBody PurchaseOrder purchaseOrder
     ) throws Exception;
 
