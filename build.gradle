@@ -46,7 +46,7 @@ dependencies {
 
 // OpenAPI Generator task configuration
 openApiGenerate {
-	inputSpec.set("$rootDir/src/main/resources/api-spec.yaml")
+	inputSpec.set("$rootDir/src/main/resources/openapi.yaml")
 	outputDir = "${rootDir}"
 	println("OpenAPI outputDir : ${rootDir}")
 	generatorName = "spring"
@@ -109,7 +109,7 @@ task generateJpaAnnotations(type: Copy) {
 task clearAndRegenerate {
 	description = 'Clears previous API spec and regenerates JPA annotations'
 	doFirst {
-		def previousSpec = file("$rootDir/api-spec-prev.yaml")
+		def previousSpec = file("$rootDir/openapi-backup.yaml")
 		if (previousSpec.exists()) {
 			previousSpec.delete()
 			println("Previous API spec file deleted.")
@@ -134,8 +134,8 @@ tasks.named('test') {
 
 tasks.named('openApiGenerate').configure {
 	doFirst {
-		def currentSpec = file("$rootDir/src/main/resources/api-spec.yaml")
-		def previousSpec = file("$rootDir/api-spec-prev.yaml")
+		def currentSpec = file("$rootDir/src/main/resources/openapi.yaml")
+		def previousSpec = file("$rootDir/openapi-backup.yaml")
 		if (!previousSpec.exists() || !currentSpec.text.equals(previousSpec.text)) {
 			println("API spec has changed or previous spec missing. Proceeding with generation.")
 		} else {
@@ -145,9 +145,9 @@ tasks.named('openApiGenerate').configure {
 	}
 	doLast {
 		copy {
-			from "$rootDir/src/main/resources/api-spec.yaml"
+			from "$rootDir/src/main/resources/openapi.yaml"
 			into "$rootDir"
-			rename { "api-spec-prev.yaml" }
+			rename { "openapi-backup.yaml" }
 		}
 		println("OpenAPI generation completed. Spec has been updated.")
 	}

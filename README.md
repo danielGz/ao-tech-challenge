@@ -8,7 +8,7 @@ This project was created in:
 https://start.spring.io/ + `Java 21 JDK` + **Spring Web Starter** + **Spring Doc Starter** + **Spring Data JPA**
 
 This project is built with an API-first Development approach to facilitate maintainability and fast adoption.
-The API contract and schema is kept simple without additional JPA decorators in [api-spec.yaml](src/main/resources/api-spec.yaml) file.
+The API contract and schema is kept simple without additional JPA decorators in [openapi.yaml](src/main/resources/openapi.yaml) file.
 To simplify updates to the API, specialized Gradle tasks are integrated into the [build.gradle](build.gradle) manifest, the developer requires only modifying the api spec.
 
 ## Development environment bootstrap:
@@ -18,6 +18,8 @@ Refer to this [document](docs/before_start.md) for development dependencies (JDK
 ### 2. Build and generate OpenAPI Interfaces and Models:
 Run `./gradlew build` after checking the code into your local environment.
 > the build lifecycle is configured to run `openApiGenerate` followed by `generateJpaAnnotations`
+
+> For a complete refresh run `./gradlew clearAndRegenerate`
 
 ### 3. Start the database
 **Quick start:**  `docker run --name postgres-local -e POSTGRES_DB=ecomm -e POSTGRES_USER=ecomm -e POSTGRES_PASSWORD=T3st12E -p 5432:5432 -d postgres:latest`
