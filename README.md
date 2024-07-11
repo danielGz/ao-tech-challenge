@@ -61,5 +61,13 @@ docker run -p 8080:8080 \
 -e SPRING_DATASOURCE_URL=jdbc:postgresql://db.example.com:5432/ecomm \
 -e SPRING_DATASOURCE_USERNAME=ecomm \
 -e SPRING_DATASOURCE_PASSWORD=T3st12E \
-your-docker-image
+agileengine/ecomm-openapi
+```
+
+### Complete Environment:
+```
+export POSTGRES_PASSWORD=daniel123
+export POSTGRES_USER=daniel
+export POSTGRES_DB=ecomm
+docker-compose -f ./prod/docker-compose.yaml down -v
 ```
