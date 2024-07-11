@@ -11,6 +11,14 @@ This project is built with an API-first Development approach to facilitate maint
 The API contract and schema is kept simple without additional JPA decorators in [openapi.yaml](src/main/resources/openapi.yaml) file.
 To simplify updates to the API, specialized Gradle tasks are integrated into the [build.gradle](build.gradle) manifest, the developer requires only modifying the api spec.
 
+**The entities relations are respected when working with them:**
+
+- Creating an OrderItem without a matching Order fails.
+- Deleting an Order associated with a OrderItem deletes also the OrderItem in question.
+- Creating an OrderItem of a Product that doesn't exist fails.
+
+A [postman collection](Ecomm APIs.postman_collection.json) with every endpoint is included in the repository
+
 ## Development environment bootstrap:
 > This project requires JDK 21
 Refer to this [document](docs/before_start.md) for development dependencies (JDK and Docker).
@@ -28,26 +36,30 @@ Run `./gradlew build` after checking the code into your local environment.
 **(Optional) Start with custom settings:**
 >`./db/start_postgres.sh`
 >
->Modify [db/docker-compose.yaml](db/docker-compose.yaml) as needed
+>Modify [db/docker-compose.yaml](prod/docker-compose.yaml) as needed
+>
+### 4. Run the test suite
+`./gradlew test`
 
-### 4. Start application
+### 5. Start application
 `./gradlew bootRun`
 
-## Prod environment execution:
-### 1. Database:
->For production set `APP_ENV=prod` to prevent the Java runtime from regenerating the schema from scratch and to preserve the database state across restarts.
-    
-```shell
-    export APP_ENV=prod
-    export POSTGRES_DB=<database-name>
-    export POSTGRES_USER=<username>
-    export POSTGRES_PASSWORD=<password>
-    ./db/start_postgres.sh
-```
-### 2. Application
-`docker run agileengine/eccomm`
 
 References:
 - https://openapi-generator.tech/docs/generators/java/
 - https://github.com/OpenAPITools/openapi-generator/blob/master/modules/openapi-generator-gradle-plugin/README.adoc
 - https://spec.openapis.org/oas/v3.0.3
+
+# Production Environment
+In this environment the database is not ephemeral, the schema is not auto generated and the connection to the database is supplied via env vars with the spring profile=prod.
+### Docker
+`docker build -t agileengine/ecomm-openapi .`
+
+**Example:**
+```shell
+docker run -p 8080:8080 \
+-e SPRING_DATASOURCE_URL=jdbc:postgresql://db.example.com:5432/ecomm \
+-e SPRING_DATASOURCE_USERNAME=ecomm \
+-e SPRING_DATASOURCE_PASSWORD=T3st12E \
+your-docker-image
+```

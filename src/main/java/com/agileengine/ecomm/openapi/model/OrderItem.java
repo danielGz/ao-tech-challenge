@@ -36,7 +36,6 @@ public class OrderItem extends RepresentationModel<OrderItem>  implements Serial
   @GeneratedValue(strategy=GenerationType.AUTO)
   private Long id;
 
-  @JsonIgnore
   @ManyToOne
   private PurchaseOrder purchaseOrder;
 
@@ -78,6 +77,7 @@ public class OrderItem extends RepresentationModel<OrderItem>  implements Serial
    */
   @Valid 
   @Schema(name = "purchaseOrder", requiredMode = Schema.RequiredMode.NOT_REQUIRED)
+  @JsonProperty("purchaseOrder")
   public PurchaseOrder getPurchaseOrder() {
     return purchaseOrder;
   }

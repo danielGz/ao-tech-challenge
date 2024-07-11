@@ -109,17 +109,10 @@ task generateJpaAnnotations(type: Copy) {
 
 					if (content.contains("class $entity")) {
 						if (relation == "ManyToOne") {
-							// Check for reciprocal OneToMany and add JsonIgnore
-							if (relations.getProperty(relatedEntity)?.contains("OneToMany:" + entity)) {
-								content = content.replaceAll('private ' + relatedEntity + ' (.*);', '@JsonIgnore\n  @ManyToOne\n  private ' + relatedEntity + ' $1;')
-								String fieldName = relatedEntity[0].toLowerCase() + relatedEntity.substring(1)
-								content = content.replaceAll('@JsonProperty\\("' + fieldName + '"\\)\\s*', '')
-							}else{
 								content = content.replaceAll('private ' + relatedEntity + ' (.*);', '@ManyToOne\n  private ' + relatedEntity + ' $1;')
-							}
 						} else if (relation == "OneToMany") {
 							String mappedByField = entity[0].toLowerCase() + entity.substring(1)
-							content = content.replaceAll('private List<.*' + relatedEntity + '> (.*);', '@OneToMany(mappedBy="' + mappedByField + '", cascade = CascadeType.ALL, fetch = FetchType.LAZY)\n  private List<' + relatedEntity + '> $1;')
+							content = content.replaceAll('private List<.*' + relatedEntity + '> (.*);', '@JsonIgnoreProperties("'+mappedByField+'")\n  @OneToMany(mappedBy="' + mappedByField + '", cascade = CascadeType.ALL, fetch = FetchType.LAZY)\n  private List<' + relatedEntity + '> $1;')
 						}
 					}
 				}

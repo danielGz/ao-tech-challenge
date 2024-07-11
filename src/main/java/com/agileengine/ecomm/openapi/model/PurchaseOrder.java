@@ -84,6 +84,7 @@ public class PurchaseOrder extends RepresentationModel<PurchaseOrder>  implement
   private OffsetDateTime lastUpdated;
 
   @Valid
+  @JsonIgnoreProperties("purchaseOrder")
   @OneToMany(mappedBy="purchaseOrder", cascade = CascadeType.ALL, fetch = FetchType.LAZY)
   private List<OrderItem> orderItems = new ArrayList<>();
 

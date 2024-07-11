@@ -7,6 +7,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.boot.test.web.client.TestRestTemplate;
 import org.springframework.boot.test.web.server.LocalServerPort;
+import org.springframework.http.HttpEntity;
 import org.springframework.http.HttpMethod;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -53,10 +54,13 @@ public class OrderControllerIntegrationTest {
 
         // Update the order
         order.setStatus(PurchaseOrder.StatusEnum.COMPLETED);
-        restTemplate.put(location, order);
+        HttpEntity<PurchaseOrder> requestEntity = new HttpEntity<>(order);
+        ResponseEntity<Void> putResponse = restTemplate.exchange("http://localhost:" + port + location, HttpMethod.PUT, requestEntity, Void.class);
+        assertEquals(HttpStatus.OK, putResponse.getStatusCode());
+
 
         // Retrieve and verify the updated order
-        ResponseEntity<PurchaseOrder> response = restTemplate.getForEntity(location, PurchaseOrder.class);
+        ResponseEntity<PurchaseOrder> response = restTemplate.getForEntity("http://localhost:" + port + location, PurchaseOrder.class);
         assertEquals(HttpStatus.OK, response.getStatusCode());
         assertEquals(PurchaseOrder.StatusEnum.COMPLETED, response.getBody().getStatus());
     }
