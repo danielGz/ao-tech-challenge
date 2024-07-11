@@ -74,37 +74,61 @@ task generateJpaAnnotations(type: Copy) {
 	dependsOn 'openApiGenerate'
 	outputs.upToDateWhen { false }
 	doFirst {
-		println("generating JPA annotations")
+		println("Generating JPA annotations")
 	}
 	from "$rootDir/src/main/java/com/agileengine/ecomm/openapi/model"
 	into "$buildDir/temp/model"
 	include '**/*.java'
-	eachFile {
-		if (!it.file.text.contains("// JPA Annotations Processed")) {
-			println("Adding annotations in ${it.file.name}")
-			it.file.text = "// JPA Annotations Processed\n" + it.file.text
-			if (it.file.text.contains("private Long id")) {
-				filter { line ->
-					line.contains('package') ? "$line\nimport jakarta.persistence.*;" : line
-				}
-				filter { line ->
-					line.contains('public class') ? "@Entity\n$line" : line
-				}
-				filter { line ->
-					line.contains('private Long id') ? " @Id\n @GeneratedValue(strategy=GenerationType.AUTO)\n$line" : line
+
+	Properties relations = new Properties()
+	relations.load(new FileInputStream("$rootDir/src/main/resources/entity-relations.properties"))
+
+	eachFile { FileCopyDetails details ->
+		if (!details.file.text.contains("// JPA Annotations Processed")) {
+			println("Adding annotations in ${details.file.name}")
+			String content = details.file.text
+
+			// Mark as processed
+			content = "// JPA Annotations Processed\n" + content
+
+			// Import JPA annotations if 'id' field exists
+			if (content.contains("private Long id")) {
+				content = content.replaceAll('package (.*);', '$0\nimport jakarta.persistence.*;\nimport com.fasterxml.jackson.annotation.JsonIdentityInfo;\nimport com.fasterxml.jackson.annotation.ObjectIdGenerators;')
+				content = content.replaceAll('public class (.*?) \\{', '@Entity\n@JsonIdentityInfo(generator = ObjectIdGenerators.PropertyGenerator.class, property = "id")\npublic class $1 {')
+				content = content.replaceAll('private Long id;', '@Id\n  @GeneratedValue(strategy=GenerationType.AUTO)\n  private Long id;')
+			}
+
+			// Apply dynamic relations from properties
+			relations.each { key, value ->
+				String entity = key.split('=')[0]
+				String relation = value.split(':')[0]
+				String relatedEntity = value.split(':')[1]
+
+				if (content.contains("class $entity")) {
+					if (relation == "ManyToOne") {
+						// For @ManyToOne
+						content = content.replaceAll('private ' + relatedEntity + ' (.*);', '@ManyToOne\n  private ' + relatedEntity + ' $1;')
+					} else if (relation == "OneToMany") {
+						String mappedByField = entity[0].toLowerCase() + entity.substring(1)
+						content = content.replaceAll('private List<.*' + relatedEntity + '> (.*);', '@OneToMany(mappedBy="' + mappedByField + '", cascade = CascadeType.ALL, fetch = FetchType.LAZY)\n  private List<' + relatedEntity + '> $1;')
+					}
 				}
 			}
+			// Write the modified content back
+			details.file.text = content
 		}
 	}
 	doLast {
 		copy {
-			from "${buildDir}/temp/model"
+			from "$buildDir/temp/model"
 			into "$rootDir/src/main/java/com/agileengine/ecomm/openapi/model"
 		}
-		delete "${buildDir}/temp/model"
+		delete "$buildDir/temp/model"
 		println("JPA annotations generation and copying complete.")
 	}
 }
+
+
 
 task clearAndRegenerate {
 	description = 'Clears previous API spec and regenerates JPA annotations'

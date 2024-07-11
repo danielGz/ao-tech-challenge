@@ -275,13 +275,11 @@ components:
           type: string
           format: date-time
           description: The date and time when the order was last updated.
-        orderItemIds:
+        orderItems:
           type: array
           items:
-            type: integer
-            format: int64
-          description: "IDs of order items associated with this purchase order."
-
+            $ref: '#/components/schemas/OrderItem'
+          description: "Order items associated with this purchase order."
 
     OrderItem:
       type: object
@@ -289,9 +287,8 @@ components:
         id:
           type: integer
           format: int64
-        purchaseOrderId:
-          type: integer
-          format: int64
+        purchaseOrder:
+          $ref: '#/components/schemas/PurchaseOrder'
         productId:
           type: integer
           format: int64
@@ -300,3 +297,4 @@ components:
         price:
           type: number
           format: float
+

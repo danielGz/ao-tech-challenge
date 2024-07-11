@@ -10,7 +10,6 @@ import java.net.URI;
 import java.util.List;
 
 @RestController
-@RequestMapping("/api/order-items")
 public class OrderItemController implements OrderItemApi {
 
  private final OrderItemService orderItemService;

@@ -1,9 +1,12 @@
 // JPA Annotations Processed
 package com.agileengine.ecomm.openapi.model;
 import jakarta.persistence.*;
+import com.fasterxml.jackson.annotation.JsonIdentityInfo;
+import com.fasterxml.jackson.annotation.ObjectIdGenerators;
 
 import java.net.URI;
 import java.util.Objects;
+import com.agileengine.ecomm.openapi.model.OrderItem;
 import com.fasterxml.jackson.annotation.JsonProperty;
 import com.fasterxml.jackson.annotation.JsonCreator;
 import com.fasterxml.jackson.annotation.JsonValue;
@@ -29,12 +32,13 @@ import jakarta.annotation.Generated;
 
 @Generated(value = "org.openapitools.codegen.languages.SpringCodegen", comments = "Generator version: 7.7.0")
 @Entity
+@JsonIdentityInfo(generator = ObjectIdGenerators.PropertyGenerator.class, property = "id")
 public class PurchaseOrder extends RepresentationModel<PurchaseOrder>  implements Serializable {
 
   private static final long serialVersionUID = 1L;
 
- @Id
- @GeneratedValue(strategy=GenerationType.AUTO)
+  @Id
+  @GeneratedValue(strategy=GenerationType.AUTO)
   private Long id;
 
   /**
@@ -80,7 +84,8 @@ public class PurchaseOrder extends RepresentationModel<PurchaseOrder>  implement
   private OffsetDateTime lastUpdated;
 
   @Valid
-  private List<Long> orderItemIds = new ArrayList<>();
+  @OneToMany(mappedBy="purchaseOrder", cascade = CascadeType.ALL, fetch = FetchType.LAZY)
+  private List<OrderItem> orderItems = new ArrayList<>();
 
   public PurchaseOrder id(Long id) {
     this.id = id;
@@ -142,32 +147,32 @@ public class PurchaseOrder extends RepresentationModel<PurchaseOrder>  implement
     this.lastUpdated = lastUpdated;
   }
 
-  public PurchaseOrder orderItemIds(List<Long> orderItemIds) {
-    this.orderItemIds = orderItemIds;
+  public PurchaseOrder orderItems(List<@Valid OrderItem> orderItems) {
+    this.orderItems = orderItems;
     return this;
   }
 
-  public PurchaseOrder addOrderItemIdsItem(Long orderItemIdsItem) {
-    if (this.orderItemIds == null) {
-      this.orderItemIds = new ArrayList<>();
+  public PurchaseOrder addOrderItemsItem(OrderItem orderItemsItem) {
+    if (this.orderItems == null) {
+      this.orderItems = new ArrayList<>();
     }
-    this.orderItemIds.add(orderItemIdsItem);
+    this.orderItems.add(orderItemsItem);
     return this;
   }
 
   /**
-   * IDs of order items associated with this purchase order.
-   * @return orderItemIds
+   * Order items associated with this purchase order.
+   * @return orderItems
    */
-  
-  @Schema(name = "orderItemIds", description = "IDs of order items associated with this purchase order.", requiredMode = Schema.RequiredMode.NOT_REQUIRED)
-  @JsonProperty("orderItemIds")
-  public List<Long> getOrderItemIds() {
-    return orderItemIds;
+  @Valid 
+  @Schema(name = "orderItems", description = "Order items associated with this purchase order.", requiredMode = Schema.RequiredMode.NOT_REQUIRED)
+  @JsonProperty("orderItems")
+  public List<@Valid OrderItem> getOrderItems() {
+    return orderItems;
   }
 
-  public void setOrderItemIds(List<Long> orderItemIds) {
-    this.orderItemIds = orderItemIds;
+  public void setOrderItems(List<@Valid OrderItem> orderItems) {
+    this.orderItems = orderItems;
   }
 
   @Override
@@ -182,12 +187,12 @@ public class PurchaseOrder extends RepresentationModel<PurchaseOrder>  implement
     return Objects.equals(this.id, purchaseOrder.id) &&
         Objects.equals(this.status, purchaseOrder.status) &&
         Objects.equals(this.lastUpdated, purchaseOrder.lastUpdated) &&
-        Objects.equals(this.orderItemIds, purchaseOrder.orderItemIds);
+        Objects.equals(this.orderItems, purchaseOrder.orderItems);
   }
 
   @Override
   public int hashCode() {
-    return Objects.hash(id, status, lastUpdated, orderItemIds);
+    return Objects.hash(id, status, lastUpdated, orderItems);
   }
 
   @Override
@@ -197,7 +202,7 @@ public class PurchaseOrder extends RepresentationModel<PurchaseOrder>  implement
     sb.append("    id: ").append(toIndentedString(id)).append("\n");
     sb.append("    status: ").append(toIndentedString(status)).append("\n");
     sb.append("    lastUpdated: ").append(toIndentedString(lastUpdated)).append("\n");
-    sb.append("    orderItemIds: ").append(toIndentedString(orderItemIds)).append("\n");
+    sb.append("    orderItems: ").append(toIndentedString(orderItems)).append("\n");
     sb.append("}");
     return sb.toString();
   }
